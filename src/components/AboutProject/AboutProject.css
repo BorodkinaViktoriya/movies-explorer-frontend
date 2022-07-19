@@ -3,3 +3,65 @@
   background-color: #FFFFFF;
   padding: 110px 70px;
 }
+
+.project__table {
+  margin: 70px 0 110px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  column-gap: 40px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.project__subtitle {
+  margin: 0 0 26px;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.project__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.project__chart {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.project__chart-column {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+}
+
+.project__chart-column_type_left {
+  background-color: #2BE080;
+
+}
+
+.project__chart-column_type_right {
+  background-color: #F2F2F2;
+}
+
+.project__chart-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.project__chart-subtitle {
+  margin: 0;
+  color: #A0A0A0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
