@@ -1,0 +1,9 @@
+.main {
+  max-width: 1280vw;
+  min-width: 320px;
+  background-color: #073042;
+  box-sizing: border-box;
+  min-height: 100px;
+  height: 100%;
+  border: red 1px solid;
+}
