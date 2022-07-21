@@ -2,12 +2,12 @@ import React from "react";
 import './AboutProject.css';
 import SectionTitle from "../SectionTitle/SectionTitle";
 
-function AboutProject(props) {
+function AboutProject() {
 
   return (
     <div className="project">
       <SectionTitle title={"О проекте"}/>
-      <ul className="project__table">
+      <ul className="project__list">
         <li className="project__column">
           <h3 className="project__subtitle">Дипломный проект включал 5 этапов</h3>
           <p className="project__text">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и
@@ -22,14 +22,12 @@ function AboutProject(props) {
 
       <div className="project__chart">
 
-        <div  className="project__chart-container">
+        <div className="project__chart-container">
           <div className="project__chart-column project__chart-column_type_left">
             <p className="project__chart-text">1 неделя</p>
           </div>
           <p className="project__chart-subtitle">Back-end</p>
         </div>
-
-
         <div className="project__chart-container">
           <div className="project__chart-column project__chart-column_type_right">
             <p className="project__chart-text">4 недели</p>

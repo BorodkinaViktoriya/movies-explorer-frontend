@@ -5,9 +5,9 @@ import './Main.css';
 import Promo from "../Promo/Promo";
 import AboutProject from "../AboutProject/AboutProject"
 import AboutMe from '../AboutMe/AboutMe'
-
 import Techs from "../Techs/Techs";
 import Footer from "../Footer/Footer";
+import Portfolio from "../Portfolio/Portfolio";
 
 function Main(props) {
 
@@ -17,6 +17,7 @@ function Main(props) {
       <AboutProject/>
       <Techs/>
       <AboutMe/>
+      <Portfolio/>
       <Footer/>
     </main>
   )

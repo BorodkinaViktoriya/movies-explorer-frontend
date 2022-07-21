@@ -1,10 +1,8 @@
 .project {
-  color: #000000;
-  background-color: #FFFFFF;
   padding: 110px 70px;
 }
 
-.project__table {
+.project__list {
   margin: 70px 0 110px;
   padding: 0;
   list-style: none;
@@ -44,7 +42,6 @@
 
 .project__chart-column_type_left {
   background-color: #2BE080;
-
 }
 
 .project__chart-column_type_right {
