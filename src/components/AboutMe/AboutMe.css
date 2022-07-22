@@ -1,10 +1,10 @@
 .student {
 
-  padding: 110px 70px;
+  padding: 110px 70px 100px;
 }
 
 .student__content {
-  margin: 66px 0 100px;
+  margin: 66px 0 0;
   display: flex;
   justify-content: space-between;
 }
