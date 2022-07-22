@@ -3,25 +3,31 @@ import './Navigation.css'
 import {Link, Route} from "react-router-dom";
 
 
-function Navigation(props) {
+function Navigation({loggedIn}) {
   return (
-    <div className="navigation">
+    <div>
       {
-        props.loggedIn
-      }
-      <Route path="/sign-in">
-        <Link to="sign-up" className="header__link">Регистрация</Link>
-      </Route>
-      <Route path="/sign-up">
-        <Link to="sign-in" className="header__link">Войти</Link>
-      </Route>
-      <Route exact path="/">
-        <div className="header__nav">
-          <p className="header__email">{props.authorisationEmail}</p>
-          <button onClick={props.onSignOut} className="header__link header__button">Войти</button>
-        </div>
-      </Route>
+        loggedIn ? (
+          <div className="navigation_">
+            <div className="navigation__container">
+              <Link to="/movies" className="navigation__films">Фильмы</Link>
+              <Link to="/sign-in" className="nav-films__saved">Сохранённые фильмы</Link>
+              </div>
+            <div className="navigation__container">
+              <Link to="/sign-in" className="navigation__account">Аккаунт</Link>
+            </div>
+
+
+          </div>
+
+        ) : (
+          <div className="navigation">
+            <Link to="sign-up" className="navigation__sign-up">Регистрация</Link>
+            <Link to="sign-in" className="navigation__sign-in">Войти</Link>
+          </div>
+        )}
     </div>
-  )}
+  )
+}
 
 export default Navigation;

@@ -1,9 +1,9 @@
 .header {
   font-family: "Inter", Arial, sans-serif;
-  min-height: 74px;
   padding: 18px 70px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header_dark {
@@ -12,21 +12,6 @@
 }
 
 .header__link {
-  height: min-content;
- }
-.header__nav {
-  display:flex;
+  height: 38px;
 }
-.header__button {
-  font-family: "Inter", Arial, sans-serif;
-  background-color: #2BE080;
-  color: #000000;
-  border: none;
-  padding: 0;
-  min-width: 76px;
-  min-height: 32px;
-  border-radius: 3px;
-  font-size: 12px;
-  line-height: 16px;
 
-}

@@ -1,3 +1,31 @@
+
 .navigation {
-border: 1px solid crimson;
+  border: 1px solid crimson;
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+}
+
+.navigation__sign-up {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #FFFFFF;
+}
+
+.navigation__sign-in {
+  text-decoration: none;
+  background-color: #2BE080;
+  color: #000000;
+  border: none;
+  padding: 0;
+  min-width: 76px;
+  min-height: 32px;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

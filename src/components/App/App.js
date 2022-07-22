@@ -37,9 +37,9 @@ function App() {
     <div className="App">
       {/*<Switch>
       <Route exact path="/">*/}
-        <Header isDark={true} />
+        <Header isDark={true} loggedIn={false} />
         <Main />
-      <Header isDark={false} />
+      <Header isDark={false} loggedIn={true} />
 
         {/*<Footer />*/}
       {/*</Route>
