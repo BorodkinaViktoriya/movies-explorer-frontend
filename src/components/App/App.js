@@ -4,6 +4,9 @@ import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
+
+
+import PageNotFound from "../PageNotFound/PageNotFound";
 /*
 function handleRegister(password, email) {
   register(password, email)
@@ -56,6 +59,9 @@ function App() {
         </Route>
         <Route path="/signup">
           <Header isDark={false} loggedIn={true} />
+        </Route>
+        <Route path="*">
+          <PageNotFound />
         </Route>
 
         {/*
