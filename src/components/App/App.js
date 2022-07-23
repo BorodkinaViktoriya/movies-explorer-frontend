@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main'
+import Footer from '../Footer/Footer'
 /*
 function handleRegister(password, email) {
   register(password, email)
@@ -35,14 +36,29 @@ function handleLogin(password, email) {
 function App() {
   return (
     <div className="App">
-      {/*<Switch>
-      <Route exact path="/">*/}
+      <Switch>
+      <Route exact path="/">
         <Header isDark={true} loggedIn={false} />
         <Main />
-      <Header isDark={false} loggedIn={true} />
+        <Footer />
+      </Route>
+        <Route path="/movies">
+          <Header isDark={false} loggedIn={true} />
+        </Route>
+        <Route path="/saved-movies">
+          <Header isDark={false} loggedIn={true} />
+        </Route>
+        <Route path="/profile">
+          <Header isDark={false} loggedIn={true} />
+        </Route>
+        <Route path="/signin">
+          <Header isDark={false} loggedIn={true} />
+        </Route>
+        <Route path="/signup">
+          <Header isDark={false} loggedIn={true} />
+        </Route>
 
-        {/*<Footer />*/}
-      {/*</Route>
+        {/*
         <Route path="/sign-in">
           <Login name='login'/>
         </Route>*/}
@@ -53,7 +69,7 @@ function App() {
           {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
         </Route>*/}
 
-     {/* </Switch>*/}
+     {/* */}
         {/*<Header
           authorisationEmail={authorisationEmail}
           onSignOut={handleSignOut}/>
@@ -78,6 +94,7 @@ function App() {
           <Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
           </Route>*/}
+      </Switch>
     </div>
   );
 }

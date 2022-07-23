@@ -1,6 +1,7 @@
 import React from "react";
 import './Navigation.css'
 import {Link, Route} from "react-router-dom";
+import logo from "../../images/profile-icon.svg";
 
 
 function Navigation({loggedIn}) {
@@ -8,14 +9,17 @@ function Navigation({loggedIn}) {
     <div>
       {
         loggedIn ? (
-          <div className="navigation_">
+          <div className="navigation">
             <div className="navigation__container">
               <Link to="/movies" className="navigation__films">Фильмы</Link>
-              <Link to="/sign-in" className="nav-films__saved">Сохранённые фильмы</Link>
-              </div>
-            <div className="navigation__container">
-              <Link to="/sign-in" className="navigation__account">Аккаунт</Link>
+              <Link to="/saved-movies" className="navigation__saved">Сохранённые&nbsp;фильмы</Link>
             </div>
+
+            <Link to="/profile" className="navigation__profile">
+              <p className="navigation__account">Аккаунт</p>
+              <div src={logo} className="navigation__logo"></div>
+            </Link>
+
 
 
           </div>

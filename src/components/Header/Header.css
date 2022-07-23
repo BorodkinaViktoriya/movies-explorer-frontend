@@ -1,9 +1,10 @@
 .header {
   font-family: "Inter", Arial, sans-serif;
   padding: 18px 70px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
   align-items: center;
+  grid-template-columns: min-content auto;
+  grid-column-gap: 44px;
 }
 
 .header_dark {
@@ -13,5 +14,5 @@
 
 .header__link {
   height: 38px;
+  justify-self: left;
 }
-

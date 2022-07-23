@@ -2,11 +2,12 @@ import React from "react";
 import SectionTitle from '../SectionTitle/SectionTitle'
 import './AboutMe.css';
 import foto from '../../images/pic__COLOR_pic.jpg';
+import {githubLink, vkLink} from "../../utils/constants";
 
 function AboutMe() {
 
   return (
-    <div className="student">
+    <section className="student">
       <SectionTitle title={"Студент"}/>
       <div className="student__content">
         <div className="student__info">
@@ -22,13 +23,16 @@ function AboutMe() {
               постоянной работы.</p>
           </div>
           <ul className="student__links">
-            <li className="student__link">Facebook</li>
-            <li className="student__link">Github</li>
+            <li>
+              <a className="student__link" href={vkLink} target='_blank'>Facebook</a></li>
+            <li>
+              <a className="student__link" href={githubLink} target='_blank'>Github</a>
+            </li>
           </ul>
         </div>
         <img className="student__photo" src={foto}/>
       </div>
-    </div>
+    </section>
   )
 }
 

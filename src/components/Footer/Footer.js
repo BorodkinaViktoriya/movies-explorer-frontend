@@ -3,9 +3,9 @@ import React from "react";
 import './Footer.css'
 import {yandexLink, githubLink, vkLink} from "../../utils/constants";
 
-function Footer(props) {
+function Footer() {
   return (
-    <div className="footer">
+    <section className="footer">
       <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
       <div className="footer__info">
         <p className="footer__copyright">&copy; 2022</p>
@@ -21,7 +21,7 @@ function Footer(props) {
           </li>
         </ul>
       </div>
-    </div>
+    </section>
   )
 }
 

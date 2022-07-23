@@ -1,9 +1,60 @@
-
 .navigation {
-  border: 1px solid crimson;
+  width: 100%;
   display: flex;
-  column-gap: 30px;
+  justify-content: space-between;
   align-items: center;
+  margin-left: auto;
+}
+
+.navigation__container {
+  display: grid;
+  column-gap: 13px;
+  grid-template-columns: repeat(2, min-content);
+  margin-right: auto;
+}
+
+.navigation__films {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navigation__saved {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navigation__profile {
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  column-gap: 13px;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  align-items: center;
+}
+
+.navigation__account {
+  color: inherit;
+  margin: 0;
+}
+
+.navigation__logo {
+  background-image: url('../../images/profile-icon.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
 }
 
 .navigation__sign-up {
@@ -12,6 +63,7 @@
   font-size: 12px;
   line-height: 16px;
   color: #FFFFFF;
+  margin: 0 30px 0 auto;
 }
 
 .navigation__sign-in {

@@ -19,7 +19,7 @@ function Promo(props) {
         />
       </div>
 
-      <button onClick={props.onSignOut} className="promo__button">Узнать больше</button>
+      <a href='#about-project' className="promo__link">Узнать больше</a>
     </div>
   )
 }

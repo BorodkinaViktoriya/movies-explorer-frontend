@@ -5,7 +5,7 @@ import SectionTitle from "../SectionTitle/SectionTitle";
 function AboutProject() {
 
   return (
-    <div className="project">
+    <section className="project" id="about-project">
       <SectionTitle title={"О проекте"}/>
       <ul className="project__list">
         <li className="project__column">
@@ -35,7 +35,7 @@ function AboutProject() {
           <p className="project__chart-subtitle">Front-end</p>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
