@@ -22,7 +22,7 @@
   margin: 0 0 5px;
 }
 
-.not-found__text{
+.not-found__text {
   margin: 0;
   font-weight: 400;
   font-size: 16px;
@@ -36,4 +36,34 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
+}
+
+@media screen and (max-width: 800px) {
+  .not-found {
+    padding: 205px 0 222px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .not-found {
+    padding:20px 0 30px;
+  }
+
+  .not-found__title {
+    margin-bottom: 10px;
+    font-size: 80px;
+    line-height: 97px;
+  }
+
+  .not-found__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .not-found__back {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+
 }
