@@ -1,4 +1,5 @@
 .promo {
+  box-sizing: border-box;
   background-color: #073042;
   padding: 70px 70px 75px;
   color: #FFFFFF;
@@ -55,4 +56,43 @@
 .promo__link:hover {
   opacity: 1;
   cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+  .promo {
+    padding: 140px 0 76px;
+  }
+  .promo__info {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 92px;
+  }
+
+  .promo__logo {
+    width: 304px;
+    margin-bottom: 48px;
+  }
+
+  .promo__title {
+    max-width: 680px;
+    font-size: 40px;
+    line-height: 50px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  .promo__subtitle {
+    margin: 0 auto;
+    max-width: 260px;
+    text-align: center;
+  }
+
+  .promo__link {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .promo {
+
+  }
 }

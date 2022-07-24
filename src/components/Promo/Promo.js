@@ -2,7 +2,6 @@ import React from 'react';
 import './Promo.css';
 import promoLogo from '../../images/promo-logo.svg'
 
-import {Link} from 'react-router-dom';
 
 function Promo(props) {
 
@@ -18,7 +17,6 @@ function Promo(props) {
           className="promo__logo" alt="Логотип"
         />
       </div>
-
       <a href='#about-project' className="promo__link">Узнать больше</a>
     </div>
   )
