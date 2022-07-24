@@ -36,7 +36,14 @@
   justify-content: space-between;
   text-decoration:none;
   color: #000000;
+  transition: opacity .3s;
 }
+
+.portfolio__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 
 .portfolio__span {
   font-weight: 400;

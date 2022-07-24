@@ -1,7 +1,6 @@
 import React from "react";
 import SectionTitle from '../SectionTitle/SectionTitle'
 import './AboutMe.css';
-import foto from '../../images/pic__COLOR_pic.jpg';
 import {githubLink, vkLink} from "../../utils/constants";
 
 function AboutMe() {
@@ -30,8 +29,7 @@ function AboutMe() {
             </li>
           </ul>
         </div>
-        <img className="student__photo" src={foto}/>
-      </div>
+        <div  className="student__photo"/></div>
     </section>
   )
 }

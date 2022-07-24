@@ -64,6 +64,11 @@
   line-height: 16px;
   color: #FFFFFF;
   margin: 0 30px 0 auto;
+  transition: opacity .3s;
+}
+
+.navigation__sign-up:hover {
+  opacity: 0.6;
 }
 
 .navigation__sign-in {
@@ -80,4 +85,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: opacity .3s;
+}
+
+.navigation__sign-in:hover {
+  opacity: 0.6;
 }

@@ -20,6 +20,9 @@
 }
 
 .student__photo {
+  background-image: url("../../images/me.jpg");
+  background-position: center;
+  background-size: cover;
   width: 270px;
   height: 327px;
   border-radius: 10px;
@@ -64,4 +67,10 @@
   line-height: 17px;
   text-decoration:none;
   color: #000000;
+  transition: opacity .3s;
+}
+
+.student__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }

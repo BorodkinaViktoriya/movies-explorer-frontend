@@ -49,4 +49,10 @@
   line-height: 16px;
   color: #FFFFFF;
   text-decoration: none;
+  transition: opacity .3s;
+}
+
+.promo__link:hover {
+  opacity: 1;
+  cursor: pointer;
 }
