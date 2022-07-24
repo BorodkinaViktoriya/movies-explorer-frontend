@@ -10,6 +10,10 @@ function Navigation({loggedIn}) {
       {
         loggedIn ? (
           <div className="navigation">
+            <button className="burger__button"></button>
+            <div className="bu">
+
+            </div>
             <div className="navigation__container">
               <Link to="/movies" className="navigation__films">Фильмы</Link>
               <Link to="/saved-movies" className="navigation__saved">Сохранённые&nbsp;фильмы</Link>
@@ -19,9 +23,6 @@ function Navigation({loggedIn}) {
               <p className="navigation__account">Аккаунт</p>
               <div src={logo} className="navigation__logo"></div>
             </Link>
-
-
-
           </div>
 
         ) : (

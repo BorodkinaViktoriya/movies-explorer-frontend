@@ -5,8 +5,7 @@ import React from "react";
 
 function Form({children, formTitle,buttonText, subText, linkText, link}) {
   return (
-    <>
-      <form className="form" id='loginForm' /* onSubmit={}*/>
+      <form className="form" id='form' /* onSubmit={}*/>
         <Link to="/" className="form__logo">
           <img src={headerLogo} className="form__logo" alt="Логотип"/>
         </Link>
@@ -15,7 +14,7 @@ function Form({children, formTitle,buttonText, subText, linkText, link}) {
           {children}
           <label className="form__label">E-mail</label>
           <input
-            type="email" id="login-email"
+            type="email" id="form-email"
             className="form__input form__input_type_email"
             name="loginEmail" placeholder="pochta@yandex.ru|" required minLength="2" maxLength="40"
           />
@@ -33,7 +32,6 @@ function Form({children, formTitle,buttonText, subText, linkText, link}) {
           <a className="form__sub-link" href={link}>{linkText}</a>
         </p>
       </form>
-    </>
   )
 }
 
