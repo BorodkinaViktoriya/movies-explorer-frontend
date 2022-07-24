@@ -8,6 +8,8 @@
 
 .burger__button {
   display: none;
+  visibility: hidden;
+  opacity: 0;
   width: 44px;
   height: 44px;
   border: none;
@@ -15,6 +17,96 @@
   background-image: url("../../images/burger-icon.svg");
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.burger__container {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity .6s;
+  width: 520px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  padding: 159px 0 92px;
+}
+
+.burger__list {
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  max-width: 340px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.burger__list-item {
+  margin-bottom: 28px;
+}
+
+.burger__list-item:last-of-type {
+  margin: auto auto 0;
+}
+
+.burger__link {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  padding: 4px;
+  transition: opacity .3s;
+}
+
+.burger__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.burger__link_active {
+  border-bottom: 2px solid black;
+}
+
+.burger__link_type_account {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.burger__account {
+  margin: 0;
+}
+
+.burger__logo {
+  width: 30px;
+  height: 30px;
+  background-image: url("../../images/profile-icon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  margin-left: 13px;
+}
+
+.burger__close {
+  width: 22px;
+  height: 22px;
+  background-image: url("../../images/close-btn.svg");
+  background-position: center;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  border: none;
+  background-color: transparent;
+  z-index: 2;
 }
 
 .navigation__container {
@@ -113,18 +205,44 @@
   }
 
   .burger__button {
-    display: block;
+    display: flex;
+    visibility: visible;
+    opacity: 1;
     margin-left: auto;
+    transition: opacity .3s;
   }
 
+  .burger__container_opened {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
-@media screen and (max-width: 5500px) {
+.burger__button:hover {
+  opacity: .6;
+  cursor: pointer;
+}
 
 
+@media screen and (max-width: 550px) {
   .burger__button {
+    background-size: 34px 42px;
+    box-sizing: border-box;
     height: 43px;
     width: 40px;
   }
 
+  .burger__container {
+    width: 100%;
+    padding: 144px 0 45px;
+  }
+
+  .burger__close {
+    top: 17px;
+    right: 17px;
+  }
+
+  .burger__list-item {
+    margin-bottom: 24px;
+  }
 }
