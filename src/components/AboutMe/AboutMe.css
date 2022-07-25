@@ -77,6 +77,32 @@
 
 @media screen and (max-width: 800px) {
   .student {
-    padding: 90px 50px;
+    padding:92px 50px 90px;
+  }
+
+  .student__about {
+    max-width: 364px;
+  }
+
+  .student__name {
+    margin-bottom: 16px;
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -0.04em;
+  }
+
+  .student__job {
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .student__brief {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .student__photo {
+    width: 255px;
+    height: 307px;
   }
 }

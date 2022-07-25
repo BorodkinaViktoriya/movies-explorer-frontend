@@ -10,11 +10,11 @@
   line-height: 16px;
   text-align: center;
   color: #A0A0A0;
-  border-bottom: 1px solid  #E8E8E8;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 .footer__info {
-padding: 20px 0;
+  padding: 20px 0;
   display: flex;
   justify-content: space-between;
 }
@@ -39,7 +39,7 @@ padding: 20px 0;
 }
 
 .footer__link {
-  text-decoration:none;
+  text-decoration: none;
   color: #000000;
   transition: opacity .3s;
 }
@@ -47,4 +47,10 @@ padding: 20px 0;
 .footer__link:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .footer {
+    padding: 70px 30px 0;
+  }
 }
