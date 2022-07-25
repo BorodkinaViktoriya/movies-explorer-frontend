@@ -10,8 +10,6 @@ import Login from '../Login/Login';
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
 
-
-
 function App() {
   return (
     <div className="App">

@@ -245,4 +245,17 @@
   .burger__list-item {
     margin-bottom: 24px;
   }
+
+  .navigation__sign-in {
+     min-width: 54px;
+    min-height: 26px;
+    font-size: 10px;
+    line-height: 16px;
+  }
+
+  .navigation__sign-up {
+    font-size: 10px;
+    margin-right: 14px;
+  }
+
 }

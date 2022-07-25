@@ -1,4 +1,5 @@
 .project {
+  box-sizing: border-box;
   padding: 110px 70px;
 }
 
@@ -62,3 +63,23 @@
   line-height: 17px;
   text-align: center;
 }
+
+@media screen and (max-width: 850px) {
+  .project {
+    padding: 90px 50px;
+  }
+
+  .project__list {
+    column-gap: 30px;
+    margin-bottom: 93px;
+  }
+
+  .project__subtitle {
+    margin-bottom: 22px;
+  }
+
+  .project__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  }

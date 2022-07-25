@@ -60,12 +60,13 @@
 
 @media screen and (max-width: 850px) {
   .promo {
-    padding: 140px 0 76px;
+    padding: 140px 0 75px;
   }
+
   .promo__info {
     flex-direction: column-reverse;
     align-items: center;
-    margin-bottom: 92px;
+    margin-bottom: 90px;
   }
 
   .promo__logo {
@@ -80,6 +81,7 @@
     margin-bottom: 22px;
     text-align: center;
   }
+
   .promo__subtitle {
     margin: 0 auto;
     max-width: 260px;
@@ -93,6 +95,25 @@
 
 @media screen and (max-width: 500px) {
   .promo {
-
+    padding: 70px 0 30px;
   }
+
+  .promo__info {
+    margin-bottom: 77px;
+  }
+
+  .promo__logo {
+    height: 210px;
+    width: 206px;
+    margin-bottom: 41px;
+  }
+
+  .promo__title {
+    max-width: 300px;
+    font-size: 30px;
+    line-height: 38px;
+    letter-spacing: -0.04em;
+    margin-bottom: 27px;
+  }
+
 }

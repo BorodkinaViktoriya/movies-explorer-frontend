@@ -1,5 +1,5 @@
 .student {
-
+  box-sizing: border-box;
   padding: 110px 70px 100px;
 }
 
@@ -73,4 +73,10 @@
 .student__link:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .student {
+    padding: 90px 50px;
+  }
 }
