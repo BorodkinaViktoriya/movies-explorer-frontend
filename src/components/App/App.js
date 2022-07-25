@@ -4,11 +4,15 @@ import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
-
 import Profile from "../Profile/Profile";
 import Login from '../Login/Login';
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import Movies from "../Movies/Movies";
+
+import allCards from '../../utils/Movies'
+import savedMovies from '../../utils/saved-movies'
+
 
 function App() {
   return (
@@ -21,10 +25,12 @@ function App() {
         </Route>
         <Route path="/movies">
           <Header isDark={false} loggedIn={true}/>
+          <Movies cards={allCards}/>
           <Footer/>
         </Route>
         <Route path="/saved-movies">
           <Header isDark={false} loggedIn={true}/>
+          <Movies cards={savedMovies}/>
           <Footer/>
         </Route>
         <Route path="/profile">

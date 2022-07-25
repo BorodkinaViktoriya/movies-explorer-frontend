@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import './Navigation.css'
-import {Link, Route, useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import logo from "../../images/profile-icon.svg";
 
 function Navigation({loggedIn}) {
