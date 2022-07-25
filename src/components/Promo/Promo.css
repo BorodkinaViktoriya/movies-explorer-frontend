@@ -60,7 +60,7 @@
 
 @media screen and (max-width: 850px) {
   .promo {
-    padding: 140px 0 75px;
+    padding: 140px 18px 75px;
   }
 
   .promo__info {
@@ -95,7 +95,7 @@
 
 @media screen and (max-width: 500px) {
   .promo {
-    padding: 70px 0 30px;
+    padding: 70px 0 27px;
   }
 
   .promo__info {

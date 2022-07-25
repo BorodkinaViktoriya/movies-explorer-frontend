@@ -3,7 +3,7 @@ import './Promo.css';
 import promoLogo from '../../images/promo-logo.svg'
 
 
-function Promo(props) {
+function Promo() {
 
   return (
     <div className="promo">
