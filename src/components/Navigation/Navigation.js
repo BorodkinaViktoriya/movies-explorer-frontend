@@ -53,8 +53,8 @@ function Navigation({loggedIn}) {
           </div>
         ) : (
           <div className="navigation">
-            <Link to="sign-up" className="navigation__sign-up">Регистрация</Link>
-            <Link to="sign-in" className="navigation__sign-in">Войти</Link>
+            <Link to="signup" className="navigation__sign-up">Регистрация</Link>
+            <Link to="signin" className="navigation__sign-in">Войти</Link>
           </div>
         )}
     </div>
