@@ -101,7 +101,6 @@
   }
 }
 
-
 @media screen and (max-width: 710px) {
   .card {
     max-width: 300px;
@@ -111,5 +110,14 @@
   .card__poster {
     max-width: 300px;
     max-height: 168px;
+  }
+
+  .card__description {
+    margin-bottom: 6px;
+  }
+
+  .card__title {
+    font-size: 12px;
+    line-height: 15px;
   }
 }

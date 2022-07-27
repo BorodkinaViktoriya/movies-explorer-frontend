@@ -26,11 +26,15 @@
   background-image: url("../../images/smalltumb-on.svg");
 }
 
-
-
 .checkbox__title {
   margin: 0;
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
+}
+
+@media screen and (max-width: 500px) {
+  .checkbox__title {
+    font-size: 11px;
+  }
 }

@@ -3,7 +3,7 @@ const movies = [
     id: 1,
     nameRU: "«Роллинг Стоунз» в изгнании",
     duration: 76,
-    url: "/uploads/thumbnail_stones_in_exile_b2f1b8f4b7.jpeg",
+    url: "https://api.nomoreparties.co/uploads/thumbnail_stones_in_exile_b2f1b8f4b7.jpeg",
   }, {
     id: 2,
     nameRU: "All Tomorrow's Parties",
@@ -14,7 +14,7 @@ const movies = [
     id: 3,
     nameRU: " Без обратного пути",
     duration: 104,
-    url: "/uploads/thumbnail_blur_a43fcf463d.jpeg",
+    url: "https://api.nomoreparties.co/uploads/thumbnail_blur_a43fcf463d.jpeg",
   },
   {
     id: 4,

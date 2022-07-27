@@ -5,7 +5,7 @@ import {yandexLink, githubLink, vkLink} from "../../utils/constants";
 
 function Footer() {
   return (
-    <section className="footer">
+    <footer className="footer">
       <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
       <div className="footer__info">
         <p className="footer__copyright">&copy; 2022</p>
@@ -21,7 +21,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-    </section>
+    </footer>
   )
 }
 
