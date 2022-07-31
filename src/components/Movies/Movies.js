@@ -1,14 +1,20 @@
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import movieCards from '../../utils/Movies';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import React from "react";
 
-function Movies({cards}) {
+function Movies({cards, isDark, loggedIn}) {
   return (
-    <div className="movies">
-      <SearchForm />
-      <MoviesCardList cards={cards}/>
-    </div>
+    <>
+      <Header isDark={isDark} loggedIn={loggedIn}/>
+      <div className="movies">
+        <SearchForm/>
+        <MoviesCardList cards={cards}/>
+      </div>
+      <Footer/>
+    </>
   );
 }
 

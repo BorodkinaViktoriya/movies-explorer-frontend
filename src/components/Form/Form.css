@@ -41,8 +41,9 @@
 
 .form__input {
   box-sizing: border-box;
-  color: #ccc;
+  color: #000000;
   border: none;
+  outline-color: #2BE080;
   border-radius: 8px;
   font-weight: 500;
   font-size: 13px;
@@ -52,6 +53,13 @@
   background-color: #F9F9F9;
   margin-top: 10px;
   margin-bottom: 15px;
+}
+
+.form__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF3055;
 }
 
 .form__button {
