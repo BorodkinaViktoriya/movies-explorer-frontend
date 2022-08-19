@@ -3,16 +3,23 @@ import './Login.css';
 import {Link, useHistory} from 'react-router-dom';
 import Form from "../Form/Form";
 import {authorize} from "../../utils/MainApi";
-import useForm from "../../hooks/useForm";
+import useFormWithValidation from "../../hooks/useForm";
+import isEmail from 'validator/es/lib/isEmail';
 
 function Login({setLoggedIn, setCurrentUser}) {
   const history = useHistory();
-  const {values, handleInputChange} = useForm();
+  const { values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
+    loginEmail: (value)=>{
+      if !isEmail(value) {
+        return ''
+      }
+    }
+  });
 
   function handleLogin(evt) {
     evt.preventDefault();
     console.log(values)
-    authorize(values)
+    authorize({password: values.loginPassword, email: values.loginEmail})
       .then((res) => {
         if (res) {
           setLoggedIn(true);
@@ -35,9 +42,23 @@ function Login({setLoggedIn, setCurrentUser}) {
             subText={'Ещё не зарегистрированы?'}
             linkText={'Регистрация'}
             link={'/signup'}
-            values={values}
-            onChange={handleInputChange}
-            onSubmit={handleLogin}/>
+            onSubmit={handleLogin}>
+        <label className="form__label">E-mail
+          <input
+            type="email" id="loginEmail" value={values.loginEmail||''} onChange={handleChange}
+            className="form__input form__input_type_email"
+            name="loginEmail"  required minLength="2" maxLength="40"
+          />
+          <span id="email-error" className="form__error">{errors.loginEmail}</span>
+        </label>
+        <label className="form__label">Пароль</label>
+        <input
+          type="password" id="loginPassword" value={values.loginPassword||''} onChange={handleChange}
+          className="form__input form_input_type_password"
+          name="loginPassword" required minLength="2" maxLength="200"
+        />
+        <span id="password-error" className="form__error">{errors.loginPassword}</span>
+      </Form>
     </section>
   )
 }

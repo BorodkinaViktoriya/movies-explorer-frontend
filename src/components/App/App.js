@@ -9,6 +9,7 @@ import Login from '../Login/Login';
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
@@ -97,7 +98,7 @@ function App() {
           />
           <ProtectedRoute
             path="/saved-movies"
-            component={Movies}
+            component={SavedMovies}
             cards={savedMovies}
             isDark={false}
             loggedIn={loggedIn}

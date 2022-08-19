@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 
-function useForm() {
-  const [values, setValues] = React.useState({ name: '', email: '', password: ''});
+/*function useForm() {
+  const [values, setValues] = React.useState({ name: '', email: '', password: '', logonEmail: '', });
 
   const handleInputChange = (evt) => {
     const input = evt.target;
@@ -12,7 +12,7 @@ function useForm() {
   return {values, handleInputChange, setValues}
 }
 
-export default useForm;
+export default useForm;*/
 
 export function useFormWithValidation() {
   const [values, setValues] = React.useState({});
@@ -39,3 +39,5 @@ export function useFormWithValidation() {
 
   return { values, handleChange, resetFrom, errors, isValid };
 }
+
+export default useFormWithValidation;
