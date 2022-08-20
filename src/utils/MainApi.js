@@ -39,3 +39,13 @@ export const getToken = (token) => {
   })
     .then((res) => handleResponse(res));
 };
+
+ export const getUserData = () => {
+  return fetch(`${BASE_URL}/users/me `, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    }
+  })
+    .then((res) => handleResponse(res));
+}

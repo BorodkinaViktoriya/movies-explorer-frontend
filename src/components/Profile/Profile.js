@@ -7,12 +7,20 @@ import useFormWithValidation from "../../hooks/useForm";
 function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
   const [userName, setUserName] = React.useState(currentUser.name);
+  const [userEmail, setUserEmail] = React.useState(currentUser.email);
   const {values, handleInputChange, setValues} = useFormWithValidation();
  /* React.useEffect(() => {
     if (currentUser) {
       setValues({name:currentUser.name, email:currentUser.email });
     }
   }, []);*/
+
+  React.useEffect(() => {
+    if (currentUser) {
+      setUserName(currentUser.name);
+      setUserEmail(currentUser.email);
+    }
+  }, [currentUser]);
   return (
     <>
       <Header isDark={false} loggedIn={true}/>
@@ -22,14 +30,14 @@ function Profile() {
             <legend className="profile__title">Привет, {userName}!</legend>
             <label className="profile__label">Имя
               <input
-                type="name" value={values.name}
+                type="name" value={userName|| ''}
                 className="profile__input"
-                name="name" required minLength="2" maxLength="40"
+                name="userName" required minLength="2" maxLength="40"
               />
             </label>
             <label className="profile__label">E-mail
               <input
-                type="email" name="email" value={values.email}
+                type="email" name="userEmail" value={userEmail||''}
                 className="profile__input" required minLength="2" maxLength="40"
               ></input>
             </label>

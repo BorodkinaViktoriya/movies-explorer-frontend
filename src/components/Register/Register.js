@@ -10,7 +10,7 @@ import isEmail from "validator/es/lib/isEmail";
 
 function Register({setLoggedIn}) {
   const history = useHistory();
-  const {values, handleChange, resetFrom, errors, setErrors, isValid} = useFormWithValidation({
+  const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
     registerEmail: (value) => {
       if (!isEmail(value)) {
         return emailValidationErrorMessage;
@@ -30,12 +30,13 @@ function Register({setLoggedIn}) {
     evt.preventDefault();
    /* register({name:values.name, password:values.password, email:values.email})*/
     console.log({name:values.registerName, password:values.registerPassword, email:values.registerEmail})
-    register(values)
+    register({name:values.registerName, password: values.registerPassword, email:values.registerEmail})
       .then((res) => {
         if (res) {
-          authorize(values)
+          authorize({password: values.registerPassword, email:values.registerEmail})
             .then((res) => {
               if (res) {
+                setCu
                 setLoggedIn(true);
                 localStorage.setItem('jwt', res.token);
                 history.push('/movies')

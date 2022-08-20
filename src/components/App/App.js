@@ -13,7 +13,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import {getToken} from "../../utils/MainApi";
+import {getToken, getUserData} from "../../utils/MainApi";
 import allCards from '../../utils/Movies'
 import savedMovies from '../../utils/saved-movies'
 
@@ -29,20 +29,35 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [initialMovies, setInitialMovies] = useState([]);
 
- /* function checkToken() {
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+        getUserData().then ((data) => {
+        setCurrentUser(data)
+        console.log(data)
+      })
+        .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
+    }
+  }, [loggedIn])
+
+  function checkToken() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       getToken(jwt)
         .then((res) => {
           if (res) {
             console.log(res)
+            setCurrentUser(res)
             setLoggedIn(true);
             history.push('/movies');
           }
         })
         .catch((err) => console.log(err));
     }
-  }*/
+  }
 
   useEffect(() => {
     const storageMovies = JSON.parse(localStorage.getItem('movies'));
