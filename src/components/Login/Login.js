@@ -7,7 +7,7 @@ import useFormWithValidation from "../../hooks/useForm";
 import isEmail from 'validator/es/lib/isEmail';
 import {emailValidationErrorMessage} from "../../utils/constants";
 
-function Login({setLoggedIn, setCurrentUser}) {
+function Login({setLoggedIn, setCurrentUser, handleLogin, fetchErrorMessage}) {
   const history = useHistory();
   const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
     loginEmail: (value) => {
@@ -18,23 +18,25 @@ function Login({setLoggedIn, setCurrentUser}) {
     }
   });
 
-  function handleLogin(evt) {
+  function handleSubmit(evt) {
     evt.preventDefault();
+
+    handleLogin({password: values.loginPassword, email: values.loginEmail})
     console.log(values)
-    authorize({password: values.loginPassword, email: values.loginEmail})
+   /* authorize({password: values.loginPassword, email: values.loginEmail})
       .then((res) => {
         if (res) {
           setLoggedIn(true);
           localStorage.setItem('jwt', res.token);
           console.log({values})
           setCurrentUser();
-          /*setAuthorisationEmail(email);*/
+          /!*setAuthorisationEmail(email);*!/
           history.push('/movies')
         }
       })
       .catch(() => {
         console.log('job,rf ghb fdnjhbpfwbb')
-      });
+      });*/
   }
 
   return (
@@ -45,7 +47,9 @@ function Login({setLoggedIn, setCurrentUser}) {
             linkText={'Регистрация'}
             link={'/signup'}
             isDisabled={!isValid}
-            onSubmit={handleLogin}>
+            fetchErrorMessage={fetchErrorMessage}
+            onSubmit={handleSubmit}
+      >
         <label className="form__label">E-mail
           <input
             type="email" id="loginEmail" value={values.loginEmail || ''} onChange={handleChange}

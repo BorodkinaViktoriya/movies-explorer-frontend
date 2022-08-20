@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import headerLogo from "../../images/header-logo.svg";
 import React from "react";
 
-function Form({children, formTitle, buttonText, subText, linkText, link, onSubmit, isDisabled}) {
+function Form({children, formTitle, buttonText, subText, linkText, link, onSubmit, isDisabled, fetchErrorMessage}) {
 
 
   return (
@@ -15,7 +15,7 @@ function Form({children, formTitle, buttonText, subText, linkText, link, onSubmi
         <legend className="form__title">{formTitle}</legend>
         {children}
       </fieldset>
-      <p  className="form__fail">dkvlsd.,nlvnlkdfngl</p>
+      <p  className="form__fail">{fetchErrorMessage}</p>
       <button className="form__button" type="submit" disabled={isDisabled}>{buttonText}</button>
       <p className="form__sub-text">{subText}
         <a className="form__sub-link" href={link}>{linkText}</a>

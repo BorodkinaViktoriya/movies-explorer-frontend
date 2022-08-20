@@ -3,12 +3,12 @@ import './Register.css';
 import { Link, useHistory } from 'react-router-dom';
 import Form from "../Form/Form";
 import useFormWithValidation from "../../hooks/useForm";
-import {authorize, register} from "../../utils/MainApi";
+import {authorize, getUserData, register, } from "../../utils/MainApi";
 import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
 import isEmail from "validator/es/lib/isEmail";
 
 
-function Register({setLoggedIn}) {
+function Register({setLoggedIn, setCurrentUser}) {
   const history = useHistory();
   const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
     registerEmail: (value) => {
@@ -28,18 +28,20 @@ function Register({setLoggedIn}) {
 
   function handleRegister(evt) {
     evt.preventDefault();
-   /* register({name:values.name, password:values.password, email:values.email})*/
-    console.log({name:values.registerName, password:values.registerPassword, email:values.registerEmail})
     register({name:values.registerName, password: values.registerPassword, email:values.registerEmail})
       .then((res) => {
         if (res) {
           authorize({password: values.registerPassword, email:values.registerEmail})
             .then((res) => {
               if (res) {
-                setCu
-                setLoggedIn(true);
-                localStorage.setItem('jwt', res.token);
-                history.push('/movies')
+                getUserData().then((data)=>{
+                  setCurrentUser(data)
+                  console.log(data)
+                  setLoggedIn(true);
+                  localStorage.setItem('jwt', res.token);
+                  history.push('/movies')
+                }).catch()
+
               }
             })
             .catch((err) => {

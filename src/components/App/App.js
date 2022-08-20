@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
+import {Route, Switch, Redirect, useHistory, useLocation} from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -13,13 +13,14 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import {getToken, getUserData} from "../../utils/MainApi";
+import {authorize, getToken, getUserData} from "../../utils/MainApi";
 import allCards from '../../utils/Movies'
 import savedMovies from '../../utils/saved-movies'
 
 
 function App() {
   const history = useHistory();
+  const {pathname} = useLocation();
 
   const [currentUser, setCurrentUser] = useState({
     _id: "",
@@ -28,20 +29,51 @@ function App() {
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [initialMovies, setInitialMovies] = useState([]);
+  const [fetchErrorMessage, setFetchErrorMessage] = useState('');
 
   useEffect(() => {
     checkToken();
   }, []);
 
-  useEffect(() => {
-    if (loggedIn) {
-        getUserData().then ((data) => {
-        setCurrentUser(data)
-        console.log(data)
+  function handleLogin({password, email}) {
+    authorize({password, email})
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          localStorage.setItem('jwt', res.token);
+          getUserData().then((data) => {
+            console.log(data)
+            setCurrentUser(data);
+            setFetchErrorMessage('')
+            history.push('/movies')
+          }).catch((error) => {
+            console.log('ytghfdbkmysq njrty', error)
+            console.log(error.status)
+            if (error.status === 401) {
+              setFetchErrorMessage('401 При авторизации произошла ошибка. Токен не передан или передан не в том формате.')
+            }
+            setFetchErrorMessage('Пklnb')
+          })
+        }
       })
-        .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
-    }
-  }, [loggedIn])
+      .catch((err) => {
+        console.log(err)
+        if (err.status === 401) {
+          setFetchErrorMessage('Вы ввели неправильный логин или пароль')
+        }
+        setFetchErrorMessage('При авторизации произошла ошибка. Токен не передан или передан не в том формате.')
+      });
+  }
+
+  /* useEffect(() => {
+     if (loggedIn) {
+         getUserData().then ((data) => {
+         setCurrentUser(data)
+         console.log(data)
+       })
+         .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
+     }
+   }, [loggedIn])*/
 
   function checkToken() {
     const jwt = localStorage.getItem('jwt');
@@ -49,31 +81,34 @@ function App() {
       getToken(jwt)
         .then((res) => {
           if (res) {
+            if (!loggedIn) {
+              setLoggedIn(true);
+            }
+
+            history.push(pathname);
             console.log(res)
             setCurrentUser(res)
-            setLoggedIn(true);
-            history.push('/movies');
           }
         })
         .catch((err) => console.log(err));
     }
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     const storageMovies = JSON.parse(localStorage.getItem('movies'));
     if (storageMovies) {
       setInitialMovies(JSON.parse(storageMovies));
     } else {
 
     }
-  })
+  })*/
 
- /* useEffect(() => {
-    checkToken()
-    /!*!/!*Promise.all([api.getUserData(), api.getInitialCards()]).then(([data, cardList]) => {
-      setCurrentUser(data)
-      setCards(cardList)*!/
-    })*!/*/
+  /* useEffect(() => {
+     checkToken()
+     /!*!/!*Promise.all([api.getUserData(), api.getInitialCards()]).then(([data, cardList]) => {
+       setCurrentUser(data)
+       setCards(cardList)*!/
+     })*!/*/
   /*    .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
   }, [])*/
 
@@ -127,8 +162,12 @@ function App() {
             loggedIn={loggedIn}
           />
           <Route path="/signin">
-            <Login setLoggedIn={setLoggedIn}
-                   setCurrentUser={setCurrentUser}/>
+            <Login
+              fetchErrorMessage={fetchErrorMessage}
+              loggedIn={loggedIn}
+              setLoggedIn={setLoggedIn}
+              setCurrentUser={setCurrentUser}
+              handleLogin={handleLogin}/>
           </Route>
           <Route path="/signup">
             <Register setLoggedIn={setLoggedIn}
