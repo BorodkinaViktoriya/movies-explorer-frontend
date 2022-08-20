@@ -59,6 +59,7 @@ function Register({setLoggedIn}) {
         linkText={'Войти'}
         link={'/signin'}
         onSubmit={handleRegister}
+        isDisabled={!isValid}
       >
         <label className="form__label">Name
         <input

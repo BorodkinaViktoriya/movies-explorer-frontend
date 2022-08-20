@@ -15,7 +15,6 @@ function Login({setLoggedIn, setCurrentUser}) {
         return emailValidationErrorMessage
       }
       return '';
-
     }
   });
 
@@ -28,7 +27,7 @@ function Login({setLoggedIn, setCurrentUser}) {
           setLoggedIn(true);
           localStorage.setItem('jwt', res.token);
           console.log({values})
-          setCurrentUser(values);
+          setCurrentUser();
           /*setAuthorisationEmail(email);*/
           history.push('/movies')
         }
@@ -45,6 +44,7 @@ function Login({setLoggedIn, setCurrentUser}) {
             subText={'Ещё не зарегистрированы?'}
             linkText={'Регистрация'}
             link={'/signup'}
+            isDisabled={!isValid}
             onSubmit={handleLogin}>
         <label className="form__label">E-mail
           <input

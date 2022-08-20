@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import headerLogo from "../../images/header-logo.svg";
 import React from "react";
 
-function Form({children, formTitle, buttonText, subText, linkText, link, values, onChange, onSubmit}) {
+function Form({children, formTitle, buttonText, subText, linkText, link, onSubmit, isDisabled}) {
 
 
   return (
@@ -15,7 +15,7 @@ function Form({children, formTitle, buttonText, subText, linkText, link, values,
         <legend className="form__title">{formTitle}</legend>
         {children}
       </fieldset>
-      <button className="form__button" type="submit">{buttonText}</button>
+      <button className="form__button" type="submit" disabled={isDisabled}>{buttonText}</button>
       <p className="form__sub-text">{subText}
         <a className="form__sub-link" href={link}>{linkText}</a>
       </p>
