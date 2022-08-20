@@ -5,14 +5,17 @@ import Form from "../Form/Form";
 import {authorize} from "../../utils/MainApi";
 import useFormWithValidation from "../../hooks/useForm";
 import isEmail from 'validator/es/lib/isEmail';
+import {emailValidationErrorMessage} from "../../utils/constants";
 
 function Login({setLoggedIn, setCurrentUser}) {
   const history = useHistory();
-  const { values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
-    loginEmail: (value)=>{
-      if !isEmail(value) {
-        return ''
+  const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
+    loginEmail: (value) => {
+      if (!isEmail(value)) {
+        return emailValidationErrorMessage
       }
+      return '';
+
     }
   });
 
@@ -45,15 +48,15 @@ function Login({setLoggedIn, setCurrentUser}) {
             onSubmit={handleLogin}>
         <label className="form__label">E-mail
           <input
-            type="email" id="loginEmail" value={values.loginEmail||''} onChange={handleChange}
+            type="email" id="loginEmail" value={values.loginEmail || ''} onChange={handleChange}
             className="form__input form__input_type_email"
-            name="loginEmail"  required minLength="2" maxLength="40"
+            name="loginEmail" required minLength="2" maxLength="40"
           />
           <span id="email-error" className="form__error">{errors.loginEmail}</span>
         </label>
         <label className="form__label">Пароль</label>
         <input
-          type="password" id="loginPassword" value={values.loginPassword||''} onChange={handleChange}
+          type="password" id="loginPassword" value={values.loginPassword || ''} onChange={handleChange}
           className="form__input form_input_type_password"
           name="loginPassword" required minLength="2" maxLength="200"
         />
