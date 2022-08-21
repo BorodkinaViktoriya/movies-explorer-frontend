@@ -19,9 +19,7 @@ function AboutProject() {
             успешно защититься.</p>
         </li>
       </ul>
-
       <div className="project__chart">
-
         <div className="project__chart-container">
           <div className="project__chart-column project__chart-column_type_left">
             <p className="project__chart-text">1 неделя</p>

@@ -11,6 +11,11 @@ export const BASE_URL = 'http://localhost:3000';
 export const nameRegex = new RegExp("^[a-zA-Zа-яёА-ЯЁ -]+$");
 export const emailValidationErrorMessage = 'Введен некоректный адрес электронной почты';
 export const nameValidationErrorMessage = 'Поле name  должно содержать только латиницу, кириллицу, пробел или дефис';
+export const loginUserError = 'Вы ввели неправильный логин или пароль';
+export const registerUserConflictError = 'Пользователь с таким email уже существует.';
+export const registerUserError = 'При регистрации пользователя произошла ошибка.';
+export const authUserError = 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.';
+export const serverError = '500 На сервере произошла ошибка.';
+
 /*export const registerUserSuccessful = 'Вы успешно зарегистрировались!';
-export const registerUserError = 'Что - то пошло не так! Ошибка регистрации';
-export const authError = 'Что-то пошло не так! Ошибка авторизации.';*/
+*/

@@ -44,7 +44,7 @@ export const getToken = (token) => {
   return fetch(`${BASE_URL}/users/me `, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('ss12121')}`,
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     }
   })
     .then((res) => handleResponse(res));

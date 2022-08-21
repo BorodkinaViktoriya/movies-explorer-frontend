@@ -7,7 +7,7 @@ import useFormWithValidation from "../../hooks/useForm";
 import isEmail from 'validator/es/lib/isEmail';
 import {emailValidationErrorMessage} from "../../utils/constants";
 
-function Login({setLoggedIn, setCurrentUser, handleLogin, fetchErrorMessage}) {
+function Login({loggedIn, handleLogin, fetchErrorMessage}) {
   const history = useHistory();
   const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
     loginEmail: (value) => {

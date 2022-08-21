@@ -4,11 +4,16 @@ import { Link, useHistory } from 'react-router-dom';
 import Form from "../Form/Form";
 import useFormWithValidation from "../../hooks/useForm";
 import {authorize, getUserData, register, } from "../../utils/MainApi";
-import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
+import {
+  emailValidationErrorMessage,
+  loginUserError,
+  nameRegex,
+  nameValidationErrorMessage, registerUserConflictError, serverError
+} from "../../utils/constants";
 import isEmail from "validator/es/lib/isEmail";
 
 
-function Register({setLoggedIn, setCurrentUser}) {
+function Register({setLoggedIn, setCurrentUser, handleLogin, setFetchErrorMessage, fetchErrorMessage}) {
   const history = useHistory();
   const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
     registerEmail: (value) => {
@@ -31,9 +36,11 @@ function Register({setLoggedIn, setCurrentUser}) {
     register({name:values.registerName, password: values.registerPassword, email:values.registerEmail})
       .then((res) => {
         if (res) {
-          authorize({password: values.registerPassword, email:values.registerEmail})
+          handleLogin({password: values.registerPassword, email: values.registerEmail})
+          /*authorize({password: values.registerPassword, email:values.registerEmail})
             .then((res) => {
               if (res) {
+
                 getUserData().then((data)=>{
                   setCurrentUser(data)
                   console.log(data)
@@ -45,12 +52,18 @@ function Register({setLoggedIn, setCurrentUser}) {
               }
             })
             .catch((err) => {
-              console.log('ошибка при авторизации')
-            });
+              console.log('ошибка при авторизации', err)
+            });*/
         }
       })
       .catch((err) => {
-        console.log('ошибка при регистрации')
+        if (err.status === 409) {
+          setFetchErrorMessage(registerUserConflictError)
+        }
+        if (err.status === 500) {
+          setFetchErrorMessage(serverError)
+        }
+        setFetchErrorMessage(registerUserError)
       })
   }
 
@@ -63,6 +76,7 @@ function Register({setLoggedIn, setCurrentUser}) {
         link={'/signin'}
         onSubmit={handleRegister}
         isDisabled={!isValid}
+        fetchErrorMessage={fetchErrorMessage}
       >
         <label className="form__label">Name
         <input

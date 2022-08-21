@@ -16,6 +16,7 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import {authorize, getToken, getUserData} from "../../utils/MainApi";
 import allCards from '../../utils/Movies'
 import savedMovies from '../../utils/saved-movies'
+import {authUserError, loginUserError, serverError} from "../../utils/constants";
 
 
 function App() {
@@ -46,22 +47,19 @@ function App() {
             setCurrentUser(data);
             setFetchErrorMessage('')
             history.push('/movies')
-          }).catch((error) => {
-            console.log('ytghfdbkmysq njrty', error)
-            console.log(error.status)
-            if (error.status === 401) {
-              setFetchErrorMessage('401 При авторизации произошла ошибка. Токен не передан или передан не в том формате.')
-            }
-            setFetchErrorMessage('Пklnb')
+          }).catch(() => {
+            setFetchErrorMessage(authUserError)
           })
         }
       })
       .catch((err) => {
-        console.log(err)
         if (err.status === 401) {
-          setFetchErrorMessage('Вы ввели неправильный логин или пароль')
+          setFetchErrorMessage(loginUserError)
         }
-        setFetchErrorMessage('При авторизации произошла ошибка. Токен не передан или передан не в том формате.')
+        if (err.status === 403) {
+          setFetchErrorMessage(authUserError)
+        }
+        setFetchErrorMessage(serverError)
       });
   }
 
@@ -165,13 +163,16 @@ function App() {
             <Login
               fetchErrorMessage={fetchErrorMessage}
               loggedIn={loggedIn}
-              setLoggedIn={setLoggedIn}
-              setCurrentUser={setCurrentUser}
               handleLogin={handleLogin}/>
           </Route>
           <Route path="/signup">
-            <Register setLoggedIn={setLoggedIn}
-                      setCurrentUser={setCurrentUser}/>
+            <Register
+              setLoggedIn={setLoggedIn}
+              setCurrentUser={setCurrentUser}
+              handleLogin={handleLogin}
+              fetchErrorMessage={fetchErrorMessage}
+              setFetchErrorMessage={setFetchErrorMessage}
+            />
           </Route>
           <Route path="*">
             <PageNotFound/>
