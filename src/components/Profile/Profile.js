@@ -11,6 +11,7 @@ function Profile() {
   const [profileName, setProfileName] = React.useState('');
   const [profileEmail, setProfileEmail] = React.useState(currentUser.email);
   const [errors, setErrors] = React.useState({});
+  const [isValid, setIsValid] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
 
   function handleProfileNameChange(evt) {
@@ -23,8 +24,19 @@ function Profile() {
   function handleProfileEmailChange(evt) {
     setProfileEmail(evt.target.value)
     setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
-
+    evt.target.setCustomValidity((value) => {
+      if (!isEmail(value)) {
+        return emailValidationErrorMessage;
+      }
+      return '';
+    })
   }
+
+  function handleProfileEmailChange(evt) {
+    setProfileEmail(evt.target.value)
+    setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
+  }
+
 
 /*  const {values,setValues, handleChange, errors, isValid} = useFormWithValidation({
     profileEmail: (value) => {
@@ -46,8 +58,6 @@ function Profile() {
     if (currentUser) {
       setProfileName(currentUser.name)
       setProfileEmail(currentUser.email)
-      console.log(profileEmail)
-      console.log(profileName)
     }
   }, [currentUser]);
 
