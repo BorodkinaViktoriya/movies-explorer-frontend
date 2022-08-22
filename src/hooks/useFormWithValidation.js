@@ -1,19 +1,5 @@
 import React, {useCallback} from "react";
 
-/*function useForm() {
-  const [values, setValues] = React.useState({ name: '', email: '', password: '', logonEmail: '', });
-
-  const handleInputChange = (evt) => {
-    const input = evt.target;
-    const value = input.value;
-    const name = input.name;
-    setValues({...values, [name]: value});
-  };
-  return {values, handleInputChange, setValues}
-}
-
-export default useForm;*/
-
 export function useFormWithValidation(customValidity) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
@@ -23,11 +9,12 @@ export function useFormWithValidation(customValidity) {
     const input = evt.target;
     const value = input.value;
     const name = input.name;
-    if(customValidity[name]) {
+    console.log(value)
+    if (customValidity[name]) {
       evt.target.setCustomValidity(customValidity[name](value))
     }
-    setValues({ ...values, [name]: value });
-    setErrors({ ...errors, [name]: input.validationMessage });
+    setValues({...values, [name]: value});
+    setErrors({...errors, [name]: input.validationMessage});
     setIsValid(input.closest("form").checkValidity());
   };
 
@@ -40,7 +27,7 @@ export function useFormWithValidation(customValidity) {
     [setValues, setErrors, setIsValid]
   );
 
-  return { values, handleChange, resetFrom, errors, isValid };
+  return {values, handleChange, resetFrom, errors, isValid};
 }
 
 export default useFormWithValidation;

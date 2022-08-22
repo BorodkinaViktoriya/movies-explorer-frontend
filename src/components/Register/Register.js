@@ -1,27 +1,21 @@
-import React, {useEffect, useMemo} from "react";
+import React from "react";
 import './Register.css';
-import {Link, useHistory} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 import Form from "../Form/Form";
-import useFormWithValidation from "../../hooks/useForm";
-import {authorize, getUserData, register,} from "../../utils/MainApi";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
+import {register} from "../../utils/MainApi";
 import {
-  emailValidationErrorMessage,
-  registerUserError,
-  nameRegex,
+  emailValidationErrorMessage, registerUserError, nameRegex,
   nameValidationErrorMessage, registerUserConflictError, serverError
 } from "../../utils/constants";
 import isEmail from "validator/es/lib/isEmail";
 import Preloader from "../Preloader/Preloader";
 
-function Register({checkToken, loggedIn, handleLogin, setFetchErrorMessage, fetchErrorMessage}) {
+function Register({loggedIn, handleLogin, setFetchErrorMessage, fetchErrorMessage}) {
 
   const history = useHistory();
-  const histo = undefined;
-  useEffect(() => {
-    console.log(loggedIn)
-  }, [])
 
-  const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
+  const {values, handleChange, errors, isValid} = useFormWithValidation({
       registerEmail: (value) => {
         if (!isEmail(value)) {
           return emailValidationErrorMessage;
@@ -47,15 +41,14 @@ function Register({checkToken, loggedIn, handleLogin, setFetchErrorMessage, fetc
       })
       .catch((err) => {
         if (err.status === 409) {
-          setFetchErrorMessage(registerUserConflictError)
+          return setFetchErrorMessage(registerUserConflictError)
         }
         if (err.status === 500) {
-          setFetchErrorMessage(serverError)
+          return setFetchErrorMessage(serverError)
         }
-        setFetchErrorMessage(registerUserError)
+        return setFetchErrorMessage(registerUserError)
       })
   }
-
 
   return (
     <section className="register">

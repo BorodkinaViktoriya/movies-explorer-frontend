@@ -3,15 +3,15 @@ import './Login.css';
 import {Link, useHistory} from 'react-router-dom';
 import Form from "../Form/Form";
 import {authorize} from "../../utils/MainApi";
-import useFormWithValidation from "../../hooks/useForm";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
 import isEmail from 'validator/es/lib/isEmail';
 import {emailValidationErrorMessage} from "../../utils/constants";
 import Preloader from "../Preloader/Preloader";
 
-function Login({checkToken, loggedIn, handleLogin, fetchErrorMessage}) {
+function Login({ loggedIn, handleLogin, fetchErrorMessage}) {
   const history = useHistory();
 
-  const {values, handleChange, resetFrom, errors, isValid} = useFormWithValidation({
+  const {values, handleChange, errors, isValid} = useFormWithValidation({
     loginEmail: (value) => {
       if (!isEmail(value)) {
         return emailValidationErrorMessage
@@ -28,8 +28,8 @@ function Login({checkToken, loggedIn, handleLogin, fetchErrorMessage}) {
   return (
     <section className="login">
       {(typeof loggedIn == "undefined") && <Preloader/>}
-      {loggedIn&&(history.push('/movies'))}
-      {loggedIn===false&&(
+      {loggedIn && (history.push('/movies'))}
+      {loggedIn === false && (
         <Form formTitle={'Рады видеть!'}
               buttonText={'Войти'}
               subText={'Ещё не зарегистрированы?'}
@@ -57,7 +57,6 @@ function Login({checkToken, loggedIn, handleLogin, fetchErrorMessage}) {
         </Form>
       )
       }
-
     </section>
   )
 }

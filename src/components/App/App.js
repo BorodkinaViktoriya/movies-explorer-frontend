@@ -36,6 +36,22 @@ function App() {
     checkToken();
   }, []);
 
+  useEffect(() => {
+    if (loggedIn) {
+      getUserData().then((data) => {
+        setCurrentUser(data)
+
+      })
+        .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
+    }
+  }, [loggedIn])
+
+  useEffect(() => {
+    console.log(currentUser)
+  }, [currentUser])
+
+
+
   function handleLogin({password, email}) {
     authorize({password, email})
       .then((res) => {
@@ -43,38 +59,25 @@ function App() {
           localStorage.setItem('jwt', res.token);
           setLoggedIn(true);
           getUserData().then((data) => {
-            console.log(data)
             setCurrentUser(data);
             setFetchErrorMessage('')
             history.push('/movies')
           }).catch(() => {
-            setFetchErrorMessage(authUserError)
+            return setFetchErrorMessage(authUserError)
           })
         }
       })
       .catch((err) => {
-        console.log(err)
-        if (err.status === 401) {
-          setFetchErrorMessage(loginUserError)
-        }
         if (err.status === 403) {
-          setFetchErrorMessage(authUserError)
+          return setFetchErrorMessage(authUserError)
         }
         if (err.status === 500) {
-          setFetchErrorMessage(serverError)
+          return setFetchErrorMessage(serverError)
         }
+        return setFetchErrorMessage(loginUserError)
       });
   }
 
-  /* useEffect(() => {
-     if (loggedIn) {
-         getUserData().then ((data) => {
-         setCurrentUser(data)
-         console.log(data)
-       })
-         .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
-     }
-   }, [loggedIn])*/
 
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
@@ -85,11 +88,8 @@ function App() {
     getToken(jwt)
       .then((res) => {
         if (res) {
-            setLoggedIn(true);
+          setLoggedIn(true);
           history.push(pathname);
-          console.log(res)
-          setCurrentUser(res)
-          return true;
         }
       })
       .catch((err) => console.log(err));

@@ -2,50 +2,74 @@ import "./Profile.css";
 import React from "react";
 import Header from "../Header/Header";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import useFormWithValidation from "../../hooks/useForm";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
+import isEmail from "validator/es/lib/isEmail";
+import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
 
 function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
-  const [userName, setUserName] = React.useState(currentUser.name);
-  const [userEmail, setUserEmail] = React.useState(currentUser.email);
+  const [profileName, setProfileName] = React.useState(currentUser.name);
+  const [profileEmail, setProfileEmail] = React.useState(currentUser.email);
   const [isEditing, setIsEditing] = React.useState(false);
 
-  /* React.useEffect(() => {
-     if (currentUser) {
-       setValues({name:currentUser.name, email:currentUser.email });
-     }
-   }, []);*/
+  const {values,setValues, handleChange, errors, isValid} = useFormWithValidation({
+    profileEmail: (value) => {
+        if (!isEmail(value)) {
+          return emailValidationErrorMessage;
+        }
+        return '';
+      },
+    profileName: (value) => {
+        if (!(nameRegex.test(value))) {
+          return nameValidationErrorMessage;
+        }
+        return '';
+      }
+    }
+  );
 
-React.useEffect(() => {
+  React.useEffect(() => {
     if (currentUser) {
-      setUserName(currentUser.name);
-      setUserEmail(currentUser.email);
+      /*setProfileName(currentUser.name)
+      setProfileEmail(currentUser.email)
+      setValues({...values, [profileEmail]:profileEmail, [profileName]:profileName})*/
+      console.log(profileEmail)
+      console.log(profileName)
+      console.log(values)
+     /* setProfileName(currentUser.name);
+      setProfileEmail(currentUser.email);*/
     }
   }, [currentUser]);
 
-  function  handleEditing() {
-    setIsEditing(true)
-
+  function handleEditing() {
+    return setIsEditing(true)
   }
+
   return (
     <>
       <Header isDark={false} loggedIn={true}/>
       <div className="profile">
         <form className="profile__form" id='profile-form' /* onSubmit={}*/>
           <fieldset className="profile__fieldset">
-            <legend className="profile__title">Привет, {userName}!</legend>
+            <legend className="profile__title">Привет, {currentUser.name}!</legend>
             <label className="profile__label">Имя
               <input
-                type="name" value={userName || ''}
+                disabled ={!isEditing}
+                type="text" value={currentUser.name||values.profileName || ''}
                 className="profile__input"
-                name="userName" required minLength="2" maxLength="40"
+                name="profileName" required minLength="2" maxLength="40"
+                onChange={handleChange}
               />
+              <span id="profileName-error" className="profile__error">{errors.registerPassword}</span>
             </label>
             <label className="profile__label">E-mail
               <input
-                type="email" name="userEmail" value={userEmail || ''}
+                type="email" name="profileEmail" value={currentUser.email||values.profileEmail || ''}
                 className="profile__input" required minLength="2" maxLength="40"
+                disabled ={!isEditing}
+                onChange={handleChange}
               ></input>
+              <span id="profileEmail-error" className="profile__error">{errors.ccc}</span>
             </label>
           </fieldset>
           {isEditing
