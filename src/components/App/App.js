@@ -28,7 +28,7 @@ function App() {
     name: "",
     email: ""
   });
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(undefined);
   const [initialMovies, setInitialMovies] = useState([]);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
 
@@ -40,8 +40,8 @@ function App() {
     authorize({password, email})
       .then((res) => {
         if (res) {
-          setLoggedIn(true);
           localStorage.setItem('jwt', res.token);
+          setLoggedIn(true);
           getUserData().then((data) => {
             console.log(data)
             setCurrentUser(data);
@@ -53,13 +53,16 @@ function App() {
         }
       })
       .catch((err) => {
+        console.log(err)
         if (err.status === 401) {
           setFetchErrorMessage(loginUserError)
         }
         if (err.status === 403) {
           setFetchErrorMessage(authUserError)
         }
-        setFetchErrorMessage(serverError)
+        if (err.status === 500) {
+          setFetchErrorMessage(serverError)
+        }
       });
   }
 
@@ -74,6 +77,26 @@ function App() {
    }, [loggedIn])*/
 
   function checkToken() {
+    const jwt = localStorage.getItem("jwt");
+    if (!localStorage.getItem("jwt")) {
+      setLoggedIn(false);
+      return true;
+    }
+    getToken(jwt)
+      .then((res) => {
+        if (res) {
+            setLoggedIn(true);
+          history.push(pathname);
+          console.log(res)
+          setCurrentUser(res)
+          return true;
+        }
+      })
+      .catch((err) => console.log(err));
+    return true;
+  };
+
+  /*function checkToken() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       getToken(jwt)
@@ -90,7 +113,7 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }
+  }*/
 
   /*useEffect(() => {
     const storageMovies = JSON.parse(localStorage.getItem('movies'));
@@ -161,12 +184,17 @@ function App() {
           />
           <Route path="/signin">
             <Login
+              checkToken={checkToken}
               fetchErrorMessage={fetchErrorMessage}
               loggedIn={loggedIn}
-              handleLogin={handleLogin}/>
+              handleLogin={handleLogin}
+            />
+
           </Route>
           <Route path="/signup">
             <Register
+              checkToken={checkToken}
+              loggedIn={loggedIn}
               setLoggedIn={setLoggedIn}
               setCurrentUser={setCurrentUser}
               handleLogin={handleLogin}
