@@ -31,6 +31,7 @@
 }
 
 .profile__label {
+  position: relative;
   display: flex;
   justify-content: space-between;
   font-weight: 500;
@@ -51,11 +52,24 @@
 }
 
 .profile__input:invalid {
-  color: #FF004C;;
+  color: #FF004C;
 }
 
 .profile__input:disabled {
   background-color: transparent;
+}
+
+.profile__error {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF004C;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__button {

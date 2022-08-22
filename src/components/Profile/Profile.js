@@ -8,11 +8,25 @@ import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from
 
 function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
-  const [profileName, setProfileName] = React.useState(currentUser.name);
+  const [profileName, setProfileName] = React.useState('');
   const [profileEmail, setProfileEmail] = React.useState(currentUser.email);
+  const [errors, setErrors] = React.useState({});
   const [isEditing, setIsEditing] = React.useState(false);
 
-  const {values,setValues, handleChange, errors, isValid} = useFormWithValidation({
+  function handleProfileNameChange(evt) {
+    setProfileName(evt.target.value)
+    setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
+    console.log(errors)
+    console.log(evt.target.validationMessage)
+
+  }
+  function handleProfileEmailChange(evt) {
+    setProfileEmail(evt.target.value)
+    setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
+
+  }
+
+/*  const {values,setValues, handleChange, errors, isValid} = useFormWithValidation({
     profileEmail: (value) => {
         if (!isEmail(value)) {
           return emailValidationErrorMessage;
@@ -26,18 +40,14 @@ function Profile() {
         return '';
       }
     }
-  );
+  );*/
 
   React.useEffect(() => {
     if (currentUser) {
-      /*setProfileName(currentUser.name)
+      setProfileName(currentUser.name)
       setProfileEmail(currentUser.email)
-      setValues({...values, [profileEmail]:profileEmail, [profileName]:profileName})*/
       console.log(profileEmail)
       console.log(profileName)
-      console.log(values)
-     /* setProfileName(currentUser.name);
-      setProfileEmail(currentUser.email);*/
     }
   }, [currentUser]);
 
@@ -55,21 +65,21 @@ function Profile() {
             <label className="profile__label">Имя
               <input
                 disabled ={!isEditing}
-                type="text" value={currentUser.name||values.profileName || ''}
+                type="text" value={profileName || ''}
                 className="profile__input"
                 name="profileName" required minLength="2" maxLength="40"
-                onChange={handleChange}
+                onChange={handleProfileNameChange}
               />
-              <span id="profileName-error" className="profile__error">{errors.registerPassword}</span>
+              <span id="profileName-error" className="profile__error">{errors.profileName}</span>
             </label>
             <label className="profile__label">E-mail
               <input
-                type="email" name="profileEmail" value={currentUser.email||values.profileEmail || ''}
+                type="email" name="profileEmail" value={profileEmail || ''}
                 className="profile__input" required minLength="2" maxLength="40"
                 disabled ={!isEditing}
-                onChange={handleChange}
+                onChange={handleProfileEmailChange}
               ></input>
-              <span id="profileEmail-error" className="profile__error">{errors.ccc}</span>
+              <span id="profileEmail-error" className="profile__error">{errors.profileEmail}</span>
             </label>
           </fieldset>
           {isEditing
