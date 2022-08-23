@@ -9,7 +9,6 @@ export function useFormWithValidation(customValidity) {
     const input = evt.target;
     const value = input.value;
     const name = input.name;
-    console.log(value)
     if (customValidity[name]) {
       evt.target.setCustomValidity(customValidity[name](value))
     }
