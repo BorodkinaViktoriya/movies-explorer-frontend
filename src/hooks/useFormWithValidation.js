@@ -26,7 +26,7 @@ export function useFormWithValidation(customValidity) {
     [setValues, setErrors, setIsValid]
   );
 
-  return {values, handleChange, resetFrom, errors, isValid};
+  return {values, setValues, handleChange, resetFrom, errors, isValid};
 }
 
 export default useFormWithValidation;

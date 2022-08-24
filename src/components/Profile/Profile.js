@@ -2,44 +2,40 @@ import "./Profile.css";
 import React from "react";
 import Header from "../Header/Header";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
 import isEmail from "validator/es/lib/isEmail";
 import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
 
 function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
-  const [profileName, setProfileName] = React.useState('');
-  const [profileEmail, setProfileEmail] = React.useState(currentUser.email);
-  const [errors, setErrors] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
 
-  function handleProfileNameChange(evt) {
-    setProfileName(evt.target.value)
-    if (!(nameRegex.test(evt.target.value))) {
-      evt.target.setCustomValidity(nameValidationErrorMessage);
-    } else {
-      evt.target.setCustomValidity('');
+  const {values, setValues, handleChange, errors, isValid} = useFormWithValidation({
+      profileEmail: (value) => {
+        if (!isEmail(value)) {
+          return emailValidationErrorMessage;
+        }
+        return '';
+      },
+      profileName: (value) => {
+        if (!(nameRegex.test(value))) {
+          return nameValidationErrorMessage;
+        }
+        return '';
+      }
     }
-    setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
-  }
-
-  function handleProfileEmailChange(evt) {
-    setProfileEmail(evt.target.value)
-    if (!isEmail(evt.target.value)) {
-      evt.target.setCustomValidity(emailValidationErrorMessage);
-    } else {
-      evt.target.setCustomValidity('')
-    }
-    setErrors({...errors, [evt.target.name]: evt.target.validationMessage})
-  }
+  );
 
   React.useEffect(() => {
     if (currentUser) {
-      setProfileName(currentUser.name)
-      setProfileEmail(currentUser.email)
+      setValues({...values, profileName: currentUser.name, profileEmail: currentUser.email})
     }
   }, [currentUser]);
+
+  React.useEffect(() => {
+
+      console.log(isValid)
+  }, [isValid]);
 
   function handleEditing() {
     return setIsEditing(true)
@@ -54,20 +50,20 @@ function Profile() {
             <legend className="profile__title">Привет, {currentUser.name}!</legend>
             <label className="profile__label">Имя
               <input
-                type="text" value={profileName || ''}
+                type="text" value={values.profileName || ''}
                 className="profile__input"
                 name="profileName" required minLength="2" maxLength="40"
                 readOnly={!isEditing}
-                onChange={handleProfileNameChange}
+                onChange={handleChange}
               />
               <span id="profileName-error" className="profile__error">{errors.profileName}</span>
             </label>
             <label className="profile__label">E-mail
               <input
-                type="email" name="profileEmail" value={profileEmail || ''}
+                type="email" name="profileEmail" value={values.profileEmail || ''}
                 className="profile__input" required minLength="2" maxLength="40"
                 readOnly={!isEditing}
-                onChange={handleProfileEmailChange}
+                onChange={handleChange}
               ></input>
               <span id="profileEmail-error" className="profile__error">{errors.profileEmail}</span>
             </label>

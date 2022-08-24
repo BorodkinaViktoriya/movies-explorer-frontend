@@ -13,7 +13,7 @@
   flex-direction: column;
   margin: 0 auto;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .profile__fieldset {
