@@ -15,7 +15,7 @@ function Form({children, formTitle, buttonText, subText, linkText, link, onSubmi
         <legend className="form__title">{formTitle}</legend>
         {children}
       </fieldset>
-      <p  className="form__fail">{fetchErrorMessage}</p>
+      <p className="form__fail">{fetchErrorMessage}</p>
       <button className="form__button" type="submit" disabled={isDisabled}>{buttonText}</button>
       <p className="form__sub-text">{subText}
         <a className="form__sub-link" href={link}>{linkText}</a>

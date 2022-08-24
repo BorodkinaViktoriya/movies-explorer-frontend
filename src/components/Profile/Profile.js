@@ -5,10 +5,12 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import isEmail from "validator/es/lib/isEmail";
 import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
+import {editUserInfo} from "../../utils/MainApi";
 
 function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = React.useState(false);
+  const [formReady, setIsfFormReady] = React.useState(false);
 
   const {values, setValues, handleChange, errors, isValid} = useFormWithValidation({
       profileEmail: (value) => {
@@ -33,19 +35,42 @@ function Profile() {
   }, [currentUser]);
 
   React.useEffect(() => {
+    if (isValid & (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email)) {
 
-      console.log(isValid)
-  }, [isValid]);
+      console.log('форма валтдна', isValid)
+      console.log('Имя изменилось', values.profileName !== currentUser.name)
+      console.log(values.profileName)
+      console.log(values.profileName)
+      console.log('почта изменилось', values.profileEmail !== currentUser.email)
+      console.log('второе условие изменилось', (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email))
+      return setIsfFormReady(true);
+    }
+    console.log('форма валтдна', isValid)
+    console.log('Имя изменилось', values.profileName !== currentUser.name)
+    console.log(values.profileName)
+    console.log(values.profileName)
+    console.log('почта изменилось', values.profileEmail !== currentUser.email)
+    return setIsfFormReady(false);
+  }, [isValid, values]);
+
+
+  function handleEditButton() {
+    return setIsEditing(true)
+  }
 
   function handleEditing() {
-    return setIsEditing(true)
+    editUserInfo({name: values.profileName, email: values.profileEmail}).then(() => {
+      setIsEditing(false)
+    }).catch((err) => {
+      /*openPopup(`Что-то пошло не так! ${err}`);*/
+    });
   }
 
   return (
     <>
       <Header isDark={false} loggedIn={true}/>
       <div className="profile">
-        <form className="profile__form" id='profile-form' /* onSubmit={}*/>
+        <form className="profile__form" id='form' /* onSubmit={}*/>
           <fieldset className="profile__fieldset">
             <legend className="profile__title">Привет, {currentUser.name}!</legend>
             <label className="profile__label">Имя
@@ -69,10 +94,11 @@ function Profile() {
             </label>
           </fieldset>
           {isEditing
-            ? <button className="profile__button profile__button_type_save" type="submit">Сохранить</button>
+            ? <button className="profile__button profile__button_type_save" type="submit"
+                      disabled={!formReady}>Сохранить</button>
             : (
               <>
-                <button className="profile__button" onClick={handleEditing} type="button">Редактировать</button>
+                <button className="profile__button" onClick={handleEditButton} type="button">Редактировать</button>
                 <button className="profile__button profile__button_type_out" type="button">Выйти из аккаунта</button>
               </>
             )}

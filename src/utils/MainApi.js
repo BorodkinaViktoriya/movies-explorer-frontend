@@ -49,3 +49,18 @@ export const getUserData = () => {
   })
     .then((res) => handleResponse(res));
 }
+
+export const editUserInfo = ({name, email}) =>  {
+  return fetch(`$${BASE_URL}/users/me `, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+    })
+  })
+    .then((res) => handleResponse(res));
+}
