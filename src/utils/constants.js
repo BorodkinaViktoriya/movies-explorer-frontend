@@ -17,5 +17,3 @@ export const registerUserError = 'При регистрации пользова
 export const authUserError = 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.';
 export const serverError = '500 На сервере произошла ошибка.';
 
-/*export const registerUserSuccessful = 'Вы успешно зарегистрировались!';
-*/

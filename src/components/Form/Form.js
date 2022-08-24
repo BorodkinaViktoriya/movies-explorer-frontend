@@ -5,7 +5,6 @@ import React from "react";
 
 function Form({children, formTitle, buttonText, subText, linkText, link, onSubmit, isDisabled, fetchErrorMessage}) {
 
-
   return (
     <form className="form" id='form' onSubmit={onSubmit} noValidate>
       <Link to="/" className="form__logo">

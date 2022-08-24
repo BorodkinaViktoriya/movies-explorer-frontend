@@ -78,7 +78,6 @@ function App() {
       });
   }
 
-
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
     if (!localStorage.getItem("jwt")) {
@@ -123,15 +122,6 @@ function App() {
 
     }
   })*/
-
-  /* useEffect(() => {
-     checkToken()
-     /!*!/!*Promise.all([api.getUserData(), api.getInitialCards()]).then(([data, cardList]) => {
-       setCurrentUser(data)
-       setCards(cardList)*!/
-     })*!/*/
-  /*    .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
-  }, [])*/
 
   /* useEffect(() => {
      const storagedMovies = JSON.parse(localStorage.getItem('movies'));

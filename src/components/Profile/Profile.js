@@ -11,6 +11,8 @@ function Profile() {
   const currentUser = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [formReady, setIsfFormReady] = React.useState(false);
+  const [isApiFetching, setIsApiFetching] = React.useState(false);
+
 
   const {values, setValues, handleChange, errors, isValid} = useFormWithValidation({
       profileEmail: (value) => {
@@ -35,34 +37,26 @@ function Profile() {
   }, [currentUser]);
 
   React.useEffect(() => {
-    if (isValid & (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email)) {
-
-      console.log('форма валтдна', isValid)
-      console.log('Имя изменилось', values.profileName !== currentUser.name)
-      console.log(values.profileName)
-      console.log(values.profileName)
-      console.log('почта изменилось', values.profileEmail !== currentUser.email)
-      console.log('второе условие изменилось', (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email))
+    if (isValid && !isApiFetching && (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email)) {
       return setIsfFormReady(true);
     }
-    console.log('форма валтдна', isValid)
-    console.log('Имя изменилось', values.profileName !== currentUser.name)
-    console.log(values.profileName)
-    console.log(values.profileName)
-    console.log('почта изменилось', values.profileEmail !== currentUser.email)
     return setIsfFormReady(false);
-  }, [isValid, values]);
+  }, [isValid, values, isApiFetching]);
 
 
   function handleEditButton() {
     return setIsEditing(true)
   }
 
-  function handleEditing() {
+  function handleEditSubmit(evt) {
+    evt.preventDefault();
+    setIsApiFetching(true);
     editUserInfo({name: values.profileName, email: values.profileEmail}).then(() => {
       setIsEditing(false)
     }).catch((err) => {
       /*openPopup(`Что-то пошло не так! ${err}`);*/
+    }).finally(() => {
+      return setIsApiFetching(false);
     });
   }
 
@@ -70,7 +64,7 @@ function Profile() {
     <>
       <Header isDark={false} loggedIn={true}/>
       <div className="profile">
-        <form className="profile__form" id='form' /* onSubmit={}*/>
+        <form className="profile__form" id='profile-form' onSubmit={handleEditSubmit}>
           <fieldset className="profile__fieldset">
             <legend className="profile__title">Привет, {currentUser.name}!</legend>
             <label className="profile__label">Имя
@@ -108,4 +102,4 @@ function Profile() {
   )
 }
 
-export default React.memo(Profile);
+export default Profile;
