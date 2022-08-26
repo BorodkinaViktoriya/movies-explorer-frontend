@@ -72,6 +72,19 @@
   overflow: hidden;
 }
 
+.profile__fail-message {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #FF004C;
+  margin: auto 0 20px;
+  max-width: 396px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .profile__button {
   margin-bottom: 16px;
   padding: 0;

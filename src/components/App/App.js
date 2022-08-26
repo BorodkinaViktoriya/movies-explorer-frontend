@@ -167,8 +167,7 @@ function App() {
           <ProtectedRoute
             path="/profile"
             component={Profile}
-            name={'Виталий'}
-            email={'pochta@yandex.ru'}
+            setCurrentUser={setCurrentUser}
             isDark={false}
             loggedIn={loggedIn}
           />

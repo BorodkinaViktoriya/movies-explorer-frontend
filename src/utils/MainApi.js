@@ -51,15 +51,14 @@ export const getUserData = () => {
 }
 
 export const editUserInfo = ({name, email}) =>  {
-  return fetch(`$${BASE_URL}/users/me `, {
+  return fetch(`${BASE_URL}/users/me `, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify({
-      name: name,
-      email: email,
+      name, email,
     })
   })
     .then((res) => handleResponse(res));

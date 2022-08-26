@@ -1,5 +1,5 @@
 import "./Profile.css";
-import React from "react";
+import React, {useState} from "react";
 import Header from "../Header/Header";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import isEmail from "validator/es/lib/isEmail";
@@ -7,11 +7,12 @@ import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import {editUserInfo} from "../../utils/MainApi";
 
-function Profile() {
+function Profile({setCurrentUser}) {
   const currentUser = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [formReady, setIsfFormReady] = React.useState(false);
   const [isApiFetching, setIsApiFetching] = React.useState(false);
+  const [editErrorMessage, setEditErrorMessage] = useState('');
 
 
   const {values, setValues, handleChange, errors, isValid} = useFormWithValidation({
@@ -51,13 +52,15 @@ function Profile() {
   function handleEditSubmit(evt) {
     evt.preventDefault();
     setIsApiFetching(true);
-    editUserInfo({name: values.profileName, email: values.profileEmail}).then(() => {
+    editUserInfo({name: values.profileName, email: values.profileEmail}).then((res) => {
       setIsEditing(false)
+     return setCurrentUser(res)
     }).catch((err) => {
-      /*openPopup(`Что-то пошло не так! ${err}`);*/
-    }).finally(() => {
+      console.log(err)
+     return setEditErrorMessage(err.status)
+    })/*.finally(() => {
       return setIsApiFetching(false);
-    });
+    });*/
   }
 
   return (
@@ -88,8 +91,11 @@ function Profile() {
             </label>
           </fieldset>
           {isEditing
-            ? <button className="profile__button profile__button_type_save" type="submit"
+            ?            (<>
+            <p className="profile__fail-message">{editErrorMessage}</p>
+            <button className="profile__button profile__button_type_save" type="submit"
                       disabled={!formReady}>Сохранить</button>
+            </>)
             : (
               <>
                 <button className="profile__button" onClick={handleEditButton} type="button">Редактировать</button>
