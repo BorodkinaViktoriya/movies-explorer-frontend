@@ -58,7 +58,8 @@ export const editUserInfo = ({name, email}) =>  {
       'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify({
-      name, email,
+      name: name,
+      email: email,
     })
   })
     .then((res) => handleResponse(res));

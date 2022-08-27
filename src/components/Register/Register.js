@@ -42,8 +42,7 @@ function Register({loggedIn, handleLogin, setFetchErrorMessage, fetchErrorMessag
       .catch((err) => {
         if (err.status === 409) {
           return setFetchErrorMessage(registerUserConflictError)
-        }
-        if (err.status === 500) {
+        } else if (err.status === 500) {
           return setFetchErrorMessage(serverError)
         }
         return setFetchErrorMessage(registerUserError)

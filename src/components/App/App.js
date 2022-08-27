@@ -40,9 +40,8 @@ function App() {
     if (loggedIn) {
       getUserData().then((data) => {
         setCurrentUser(data)
-
       })
-        .catch((err) => console.log('Ошибка при звгрузке данных c сервера'))
+        .catch((err) => console.log('Ошибка при звгрузке данных c сервера',err))
     }
   }, [loggedIn])
 

@@ -3,7 +3,13 @@ import React, {useState} from "react";
 import Header from "../Header/Header";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import isEmail from "validator/es/lib/isEmail";
-import {emailValidationErrorMessage, nameRegex, nameValidationErrorMessage} from "../../utils/constants";
+import {
+  editUserError,
+  emailValidationErrorMessage,
+  nameRegex,
+  nameValidationErrorMessage,
+  registerUserConflictError, serverError
+} from "../../utils/constants";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import {editUserInfo} from "../../utils/MainApi";
 
@@ -49,18 +55,38 @@ function Profile({setCurrentUser}) {
     return setIsEditing(true)
   }
 
-  function handleEditSubmit(evt) {
+  /*function handleEditSubmit(evt) {
     evt.preventDefault();
     setIsApiFetching(true);
     editUserInfo({name: values.profileName, email: values.profileEmail}).then((res) => {
       setIsEditing(false)
-     return setCurrentUser(res)
+      return setCurrentUser(res)
     }).catch((err) => {
       console.log(err)
-     return setEditErrorMessage(err.status)
-    })/*.finally(() => {
+      return setEditErrorMessage(err.status)
+    })/!*.finally(() => {
       return setIsApiFetching(false);
-    });*/
+    });*!/
+  }*/
+  function handleEditSubmit(evt) {
+    evt.preventDefault();
+    setIsApiFetching(true);
+    editUserInfo({name: values.profileName, email: values.profileEmail}).then((res) => {
+      console.log('tditing result', res)
+      setIsEditing(false)
+      return setCurrentUser(res);
+    }).catch((err) => {
+      console.log('mistake of fetch edit', err)
+      if (err.status === 409) {
+        return setEditErrorMessage(registerUserConflictError)
+      } else if (err.status === 500) {
+        return setEditErrorMessage(serverError)
+      }
+      console.log('mistake of fetch edit', err)
+     return setEditErrorMessage(editUserError)
+    }).finally(() => {
+      return setIsApiFetching(false);
+    })
   }
 
   return (
