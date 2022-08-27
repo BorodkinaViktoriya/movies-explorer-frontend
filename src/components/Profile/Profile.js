@@ -55,19 +55,6 @@ function Profile({setCurrentUser}) {
     return setIsEditing(true)
   }
 
-  /*function handleEditSubmit(evt) {
-    evt.preventDefault();
-    setIsApiFetching(true);
-    editUserInfo({name: values.profileName, email: values.profileEmail}).then((res) => {
-      setIsEditing(false)
-      return setCurrentUser(res)
-    }).catch((err) => {
-      console.log(err)
-      return setEditErrorMessage(err.status)
-    })/!*.finally(() => {
-      return setIsApiFetching(false);
-    });*!/
-  }*/
   function handleEditSubmit(evt) {
     evt.preventDefault();
     setIsApiFetching(true);
@@ -83,7 +70,7 @@ function Profile({setCurrentUser}) {
         return setEditErrorMessage(serverError)
       }
       console.log('mistake of fetch edit', err)
-     return setEditErrorMessage(editUserError)
+      return setEditErrorMessage(editUserError)
     }).finally(() => {
       return setIsApiFetching(false);
     })
@@ -117,10 +104,11 @@ function Profile({setCurrentUser}) {
             </label>
           </fieldset>
           {isEditing
-            ?            (<>
-            <p className="profile__fail-message">{editErrorMessage}</p>
-            <button className="profile__button profile__button_type_save" type="submit"
-                      disabled={!formReady}>Сохранить</button>
+            ? (<>
+              <p className="profile__fail-message">{editErrorMessage}</p>
+              <button className="profile__button profile__button_type_save" type="submit"
+                      disabled={!formReady}>Сохранить
+              </button>
             </>)
             : (
               <>
