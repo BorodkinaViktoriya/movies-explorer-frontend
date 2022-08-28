@@ -64,3 +64,14 @@ export const editUserInfo = ({name, email}) =>  {
   })
     .then((res) => handleResponse(res));
 }
+
+export const getSavedMovies = () => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    }
+  })
+    .then((res) => handleResponse(res));
+}

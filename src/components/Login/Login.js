@@ -8,7 +8,7 @@ import isEmail from 'validator/es/lib/isEmail';
 import {emailValidationErrorMessage} from "../../utils/constants";
 import Preloader from "../Preloader/Preloader";
 
-function Login({ loggedIn, handleLogin, fetchErrorMessage}) {
+function Login({loggedIn, handleLogin, fetchErrorMessage}) {
   const history = useHistory();
 
   const {values, handleChange, errors, isValid} = useFormWithValidation({

@@ -36,12 +36,25 @@ function Profile({setCurrentUser}) {
       }
     }
   );
+  React.useEffect(() => {
+    function handleEscapeKey(event) {
+      console.log(event)
+      console.log(values)
+      if (event.code === 'Escape') {
+        setIsEditing(false)
+        return setValues({...values, profileName: currentUser.name, profileEmail: currentUser.email})
+      }
+    }
+
+    document.addEventListener('keydown', handleEscapeKey)
+    return () => document.removeEventListener('keydown', handleEscapeKey)
+  }, [])
 
   React.useEffect(() => {
     if (currentUser) {
       setValues({...values, profileName: currentUser.name, profileEmail: currentUser.email})
     }
-  }, [currentUser]);
+  }, [currentUser, isEditing]);
 
   React.useEffect(() => {
     if (isValid && !isApiFetching && (values.profileName !== currentUser.name || values.profileEmail !== currentUser.email)) {
@@ -52,7 +65,7 @@ function Profile({setCurrentUser}) {
 
 
   function handleEditButton() {
-    return setIsEditing(true)
+    setIsEditing(true)
   }
 
   function handleEditSubmit(evt) {

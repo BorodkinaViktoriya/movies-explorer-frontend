@@ -38,6 +38,7 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
+
       getUserData().then((data) => {
         setCurrentUser(data)
       })
@@ -138,7 +139,14 @@ function App() {
          localStorage.clear();
        })
        .finally(() => setRequest(false));
-   }, []);*/
+   }, []);
+
+   function handleSignOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('jwt');
+    history.push('/sign-in');
+  }
+   */
 
   return (
     <div className="App">

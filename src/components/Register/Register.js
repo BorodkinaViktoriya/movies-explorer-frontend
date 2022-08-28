@@ -1,6 +1,6 @@
 import React from "react";
 import './Register.css';
-import { useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import Form from "../Form/Form";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import {register} from "../../utils/MainApi";

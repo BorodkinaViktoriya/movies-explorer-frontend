@@ -42,8 +42,10 @@ function Navigation({loggedIn}) {
 
             </div>
             <div className="navigation__container">
-              <Link to="/movies" className={pathname === "/movies" ? "navigation__films navigation__films_active" : "navigation__films"}>Фильмы</Link>
-              <Link to="/saved-movies" className={pathname === "/saved-movies" ? "navigation__saved navigation__saved_active" : "navigation__saved"}>Сохранённые&nbsp;фильмы</Link>
+              <Link to="/movies"
+                    className={pathname === "/movies" ? "navigation__films navigation__films_active" : "navigation__films"}>Фильмы</Link>
+              <Link to="/saved-movies"
+                    className={pathname === "/saved-movies" ? "navigation__saved navigation__saved_active" : "navigation__saved"}>Сохранённые&nbsp;фильмы</Link>
             </div>
 
             <Link to="/profile" className="navigation__profile">

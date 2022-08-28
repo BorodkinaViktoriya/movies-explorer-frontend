@@ -123,6 +123,7 @@
   text-decoration: none;
   color: inherit;
 }
+
 .navigation__films_active {
   font-weight: 500;
 }
@@ -254,7 +255,7 @@
   }
 
   .navigation__sign-in {
-     min-width: 54px;
+    min-width: 54px;
     min-height: 26px;
     font-size: 10px;
     line-height: 16px;
