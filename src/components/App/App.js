@@ -14,23 +14,23 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import {authorize, getToken, getUserData} from "../../utils/MainApi";
-import allCards from '../../utils/Movies'
 import savedMovies from '../../utils/saved-movies'
 import {authUserError, loginUserError, serverError} from "../../utils/constants";
+import moviesApi from "../../utils/MoviesApi";
 
 
 function App() {
   const history = useHistory();
   const {pathname} = useLocation();
-
+  const [loggedIn, setLoggedIn] = useState(undefined);
+  const [initialMovies, setInitialMovies] = useState([]);
+  const [fetchErrorMessage, setFetchErrorMessage] = useState('');
   const [currentUser, setCurrentUser] = useState({
     _id: "",
     name: "",
     email: ""
   });
-  const [loggedIn, setLoggedIn] = useState(undefined);
-  const [initialMovies, setInitialMovies] = useState([]);
-  const [fetchErrorMessage, setFetchErrorMessage] = useState('');
+
 
   useEffect(() => {
     checkToken();
@@ -38,19 +38,15 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-
-      getUserData().then((data) => {
+      Promise.all([getUserData(), moviesApi.getInitialMovies()]).then(([data, movies]) => {
         setCurrentUser(data)
+        localStorage.setItem('movies', movies);
+        setInitialMovies(movies)
+        console.log(movies)
       })
-        .catch((err) => console.log('Ошибка при звгрузке данных c сервера',err))
+        .catch((err) => console.log('Ошибка при звгрузке данных c сервера', err))
     }
   }, [loggedIn])
-
-  useEffect(() => {
-    console.log(currentUser)
-  }, [currentUser])
-
-
 
   function handleLogin({password, email}) {
     authorize({password, email})
@@ -80,9 +76,10 @@ function App() {
 
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
-    if (!localStorage.getItem("jwt")) {
+    console.log(jwt)
+    if (!jwt) {
       setLoggedIn(false);
-      return true;
+      return;
     }
     getToken(jwt)
       .then((res) => {
@@ -90,29 +87,12 @@ function App() {
           setLoggedIn(true);
           history.push(pathname);
         }
-      })
-      .catch((err) => console.log(err));
-    return true;
+      }).catch((err) => {
+      console.log(err)
+      localStorage.removeItem('jwt');
+    });
+    return;
   };
-
-  /*function checkToken() {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      getToken(jwt)
-        .then((res) => {
-          if (res) {
-            if (!loggedIn) {
-              setLoggedIn(true);
-            }
-
-            history.push(pathname);
-            console.log(res)
-            setCurrentUser(res)
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }*/
 
   /*useEffect(() => {
     const storageMovies = JSON.parse(localStorage.getItem('movies'));
@@ -160,7 +140,7 @@ function App() {
           <ProtectedRoute
             exact path="/movies"
             component={Movies}
-            cards={allCards}
+            initialMovies={initialMovies}
             isDark={false}
             loggedIn={loggedIn}
           />

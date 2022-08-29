@@ -1,0 +1,10 @@
+.movies{
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 252px);
+}
+
+.movies_info {
+  text-align: center;
+  margin: 30px auto auto;
+}

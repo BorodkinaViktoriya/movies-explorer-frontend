@@ -11,7 +11,8 @@ function MoviesCard({card}) {
   }
   return (
     <div className="card">
-      <img className="card__poster" src={card.url} alt={card.nameRU}/>
+      <img className="card__poster" src={pathname === '/saved-movies' ? `${card.image}` :
+        `https://api.nomoreparties.co${card.image.url}`} alt={card.nameRU}/>
       <figcaption className="card__info">
         <div className="card__description">
           <h2 className="card__title">{card.nameRU}</h2>

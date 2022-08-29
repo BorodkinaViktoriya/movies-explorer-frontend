@@ -4,12 +4,12 @@ import {useLocation} from "react-router-dom";
 import MoviesCard from '../MoviesCard/MoviesCard'
 
 
-function MoviesCardList({cards}) {
+function MoviesCardList({movies}) {
   const {pathname} = useLocation();
   return (
     <section className="cards-container">
       <div className="cards-container__list">
-        {cards.map((movie) =>
+        {movies.map((movie) =>
           <MoviesCard
             key={movie.id}
             card={movie}
