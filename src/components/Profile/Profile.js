@@ -76,13 +76,11 @@ function Profile({setCurrentUser}) {
       setIsEditing(false)
       return setCurrentUser(res);
     }).catch((err) => {
-      console.log('mistake of fetch edit', err)
       if (err.status === 409) {
         return setEditErrorMessage(registerUserConflictError)
       } else if (err.status === 500) {
         return setEditErrorMessage(serverError)
       }
-      console.log('mistake of fetch edit', err)
       return setEditErrorMessage(editUserError)
     }).finally(() => {
       return setIsApiFetching(false);
@@ -93,7 +91,7 @@ function Profile({setCurrentUser}) {
     <>
       <Header isDark={false} loggedIn={true}/>
       <div className="profile">
-        <form className="profile__form" id='profile-form' onSubmit={handleEditSubmit}>
+        <form className="profile__form" id='profile-form' onSubmit={handleEditSubmit} noValidate>
           <fieldset className="profile__fieldset">
             <legend className="profile__title">Привет, {currentUser.name}!</legend>
             <label className="profile__label">Имя
