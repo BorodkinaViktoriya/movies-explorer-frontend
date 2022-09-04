@@ -17,6 +17,6 @@ export const registerUserError = 'При регистрации пользова
 export const authUserError = 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.';
 export const serverError = '500 На сервере произошла ошибка.';
 export const editUserError = 'При обновлении профиля произошла ошибка.';
-export const foundMovieError = 'При поиске фильма произошла ошибка.';
+export const foundMovieError = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 export const notFoundMovie = 'Ничего не найдено';
 export const emptyMovieInputError = 'Нужно ввести ключевое слово';

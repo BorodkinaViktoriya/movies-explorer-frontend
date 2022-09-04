@@ -5,25 +5,33 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import React, {useEffect, useState} from "react";
 import Preloader from "../Preloader/Preloader";
-import {emptyMovieInputError, foundMovieError, notFoundMovie} from "../../utils/constants";
+import {foundMovieError, notFoundMovie} from "../../utils/constants";
+import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 
 function Movies({initialMovies, isDark, loggedIn}) {
   const [isLoading, setIsLoading] = useState(false);
   const [isFound, setIsFound] = useState(false);
   const [foundMovies, setFoundMovies] = useState([]);
-  const [isCheckbox, setIsCheckbox] = useState(false);
+  const [isCheckboxOn, setIsCheckboxOn] = useState(false);
   const [infoText, setInfoText] = useState('Ничего не найдено');
   const [inputValue, setInputValue] = useState('');
+
+const windowWidth = useCurrentWidth
+
 
 
   useEffect(() => {
     setIsLoading(true)
     const foundBefore = JSON.parse(localStorage.getItem('savedMovies'));
-    const foundBeforeInput = JSON.parse(localStorage.getItem('savedInputValue'));
-    setInputValue(foundBeforeInput)
+    const foundBeforeInInput = JSON.parse(localStorage.getItem('savedInputValue'));
+    const checked = localStorage.getItem('isCheckboxOn');
+    if(checked) {
+      setIsCheckboxOn(checked)
+    }
+    setInputValue(foundBeforeInInput)
     if (foundBefore) {
       console.log('foundBefore', foundBefore)
-      console.log('foundBefore', foundBeforeInput)
+      console.log('foundBefore', foundBeforeInInput)
       setFoundMovies(foundBefore)
       setIsFound(true)
     }
@@ -31,25 +39,35 @@ function Movies({initialMovies, isDark, loggedIn}) {
     setIsLoading(false)
   }, []);
 
+  function toggleCheckbox () {
+    console.log(' before shorts', isCheckboxOn)
+    setIsCheckboxOn(!isCheckboxOn);
+  }
+
 
   function handleSearchAllMovies(evt) {
     evt.preventDefault();
     setIsLoading(true)
     console.log('all фильмы', initialMovies)
-    localStorage.setItem('savedMovies', JSON.stringify(''));
     localStorage.setItem('savedInputValue', JSON.stringify(inputValue));
-    if(!inputValue){
+    localStorage.setItem('isCheckboxOn', isCheckboxOn);
+    if (!inputValue) {
       setIsLoading(false);
-       return;
+      return;
     }
-    const found = initialMovies.filter(({nameRU}) => nameRU.toLowerCase().includes(inputValue.toLowerCase()))
+    console.log(isCheckboxOn)
+    const found = initialMovies.filter(m=>{
+      if (isCheckboxOn) {
+        return m.duration<= 40 &&m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
+      }
+       return m.nameRU.toLowerCase().includes(inputValue.toLowerCase())})
+
     console.log('найденные фильмы', found)
-    localStorage.setItem('savedMovies', JSON.stringify(''));
+    localStorage.setItem('savedMovies', JSON.stringify(found));
     localStorage.setItem('savedInputValue', JSON.stringify(inputValue));
     if (found.length === 0) {
       setIsFound(false)
       setInfoText(notFoundMovie)
-
     } else if (found) {
       setFoundMovies(found)
       setIsFound(true)
@@ -60,11 +78,6 @@ function Movies({initialMovies, isDark, loggedIn}) {
     return setIsLoading(false)
   }
 
-  /*function handleFilmsChange(){
-
-
-  }*/
-
   return (
     <>
       <Header isDark={isDark} loggedIn={loggedIn}/>
@@ -73,7 +86,8 @@ function Movies({initialMovies, isDark, loggedIn}) {
           onSubmit={handleSearchAllMovies}
           inputValue={inputValue}
           setInputValue={setInputValue}
-          checkbox={isCheckbox}
+          active={isCheckboxOn}
+          toggleCheckbox={toggleCheckbox}
         />
         {isLoading && <Preloader/>}
         {!isFound && <p className='movies_info'>{infoText}</p>}

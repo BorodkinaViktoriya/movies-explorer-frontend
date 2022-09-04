@@ -3,7 +3,7 @@ import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 import {emptyMovieInputError} from "../../utils/constants";
 
-function SearchForm({onSubmit, inputValue, setInputValue, checkbox}) {
+function SearchForm({onSubmit, inputValue, setInputValue, active, toggleCheckbox}) {
   const [inputValueError, setInputValueError] = useState('');
 
   const handleChange = (evt) => {
@@ -27,7 +27,7 @@ function SearchForm({onSubmit, inputValue, setInputValue, checkbox}) {
         </label>
         <button className="search__button" type="submit" onSubmit={onSubmit}></button>
       </form>
-      <FilterCheckbox checkbox={checkbox}/>
+      <FilterCheckbox active={active} toggleCheckbox={toggleCheckbox}/>
       <div className="search__line"></div>
     </section>
   )
