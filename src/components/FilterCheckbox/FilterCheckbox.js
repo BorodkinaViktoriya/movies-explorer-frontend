@@ -3,14 +3,14 @@ import './FilterCheckbox.css';
 
 function FilterCheckbox({active, toggleCheckbox}) {
 
- function  onClick(){
+ const onClick=()=> {
     toggleCheckbox();
   }
 
   return (
     <div>
       <div className="checkbox">
-        <button className={!active ? "checkbox__button" : "checkbox__button checkbox__button_active"}
+        <button className={active ? "checkbox__button checkbox__button_active" :"checkbox__button" }
                 type='button' onClick={onClick}></button>
         <p className='checkbox__title'>Короткометражки</p>
       </div>

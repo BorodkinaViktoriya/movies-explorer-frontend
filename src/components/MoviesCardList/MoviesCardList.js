@@ -16,8 +16,7 @@ function MoviesCardList({movies}) {
           />
         )}
       </div>
-      {pathname === "/movies" ? <button className="cards-container__more">Еще</button> :
-        <div className="cards-container__empty"></div>}
+      {pathname === "/saved-movies" && <div className="cards-container__empty"></div>}
     </section>
   )
 }
