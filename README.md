@@ -87,3 +87,5 @@ here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-
 ### Ссылка на макет: https://www.figma.com/file/qh2dm6DjjYxix0YeineJAZ/Diploma-(Copy)-3?node-id=891%3A3857
 
 ### Ссылка на домен: https://borodkina-movies.nomoredomains.sbs
+
+### Ссылка пул реквест: https://github.com/BorodkinaViktoriya/movies-explorer-frontend/pull/2
