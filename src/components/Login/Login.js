@@ -5,7 +5,6 @@ import Form from "../Form/Form";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import isEmail from 'validator/es/lib/isEmail';
 import {emailValidationErrorMessage} from "../../utils/constants";
-import Preloader from "../Preloader/Preloader";
 
 function Login({loggedIn, handleLogin, fetchErrorMessage}) {
   const history = useHistory();
@@ -58,6 +57,7 @@ function Login({loggedIn, handleLogin, fetchErrorMessage}) {
         />
         <span id="password-error" className="form__error">{errors.loginPassword}</span>
       </Form>
+
     </section>
   )
 }

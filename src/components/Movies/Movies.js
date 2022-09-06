@@ -8,9 +8,9 @@ import Preloader from "../Preloader/Preloader";
 import {foundMovieError, moviesApiURL, notFoundMovie} from "../../utils/constants";
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getFirstRenderCount, getRenderStepCount} from '../../utils/getRenderCount'
-import {deleteMovie, getSavedMovies, saveMovie} from "../../utils/MainApi";
+import {deleteMovie, saveMovie} from "../../utils/MainApi";
 
-function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) {
+function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) {
   const windowWidth = useCurrentWidth();
   const [isSearching, setIsSearching] = useState(false);
   const [isFound, setIsFound] = useState(false);
@@ -23,7 +23,7 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
 
   useEffect(() => {
     setIsSearching(true)
-    const foundBefore = JSON.parse(localStorage.getItem('savedMovies'));
+    const foundBefore = JSON.parse(localStorage.getItem('foundMovies'));
     const foundBeforeInInput = JSON.parse(localStorage.getItem('savedInputValue'));
     const checked = JSON.parse(localStorage.getItem('isCheckboxOn'));
     setIsCheckboxOn(checked)
@@ -37,7 +37,6 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
   function toggleCheckbox() {
     setIsCheckboxOn(!isCheckboxOn);
   }
-
 
   function handleSearchAllMovies(evt) {
     evt.preventDefault();
@@ -54,7 +53,7 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
       }
       return m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
     })
-    localStorage.setItem('savedMovies', JSON.stringify(found));
+    localStorage.setItem('foundMovies', JSON.stringify(found));
     if (found.length === 0) {
       setIsFound(false)
       setInfoText(notFoundMovie)
@@ -81,11 +80,11 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
   }
 
   useEffect(() => {
-
-    if(savedMovies.length>0){
-      const sliceMovies = savedMovies.splice(0, renderCount);
+    const foundBefore = JSON.parse(localStorage.getItem('foundMovies'));
+    if (foundBefore) {
+      const sliceMovies = foundBefore.splice(0, renderCount);
       setVisibleMovies(sliceMovies)
-      if (sliceMovies.length < JSON.parse(localStorage.getItem('savedMovies')).length) {
+      if (sliceMovies.length < JSON.parse(localStorage.getItem('foundMovies')).length) {
         setHiddenMovies(true)
       } else {
         setHiddenMovies(false)
@@ -100,7 +99,7 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
       (m) => m.movieId === card.id
     );
     if (savedMovie) {
-      deleteMovie(savedMovie._id).then(({data}) => {
+      deleteMovie(savedMovie._id).then(() => {
         const newSavedMovies = savedMovies.filter(
           (item) => item._id !== savedMovie._id
         );
@@ -142,8 +141,10 @@ function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies})
         {isSearching && <Preloader/>}
         {!isFound && <p className='movies__info'>{infoText}</p>}
         {isFound && !isSearching &&
-        <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={()=>console.log('delete')} onLike={handleToggleSave}/>}
-        {!isSearching && hiddenMovies && <button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
+        <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={() => console.log('delete')}
+                        onLike={handleToggleSave}/>}
+        {!isSearching && hiddenMovies &&
+        <button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
       </div>
       <Footer/>
     </>

@@ -37,18 +37,18 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true)
     if (loggedIn) {
-      Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, movies, userMovies]) => {
+      Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, allMovies, userMovies]) => {
         setCurrentUser(data)
-        localStorage.setItem('movies', movies);
-        localStorage.setItem('savedmovies', userMovies);
-        setInitialMovies(movies);
+        localStorage.setItem('allmovies', JSON.stringify(allMovies));
+        localStorage.setItem('savedUserMovies', JSON.stringify(userMovies));
+
+        setInitialMovies(allMovies);
         setSavedMovies(userMovies)
-        console.log('movies', movies)
-        console.log('savedmovies', userMovies)
       })
         .catch((err) => console.log('Ошибка при загрузке данных c сервера', err))
-        .finally(setIsLoading(false))
+        .finally(() => setIsLoading(false))
     }
   }, [loggedIn])
 
@@ -59,22 +59,11 @@ function App() {
         if (res) {
           localStorage.setItem('jwt', res.token);
           setLoggedIn(true);
-          Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, movies, userMovies]) => {
-            setCurrentUser(data)
-            localStorage.setItem('movies', movies);
-            localStorage.setItem('savedmovies', userMovies);
-            setInitialMovies(movies);
-            setSavedMovies(userMovies)
-            console.log('movies', movies)
-            console.log('savedmovies', userMovies)
-          })
-            .catch((err) => console.log('Ошибка при загрузке данных c сервера', err))
-            .finally(()=>{
-              setIsLoading(false);
-              history.push('/movies');
-            }
-
-        ).catch(() => {
+          getUserData().then((data) => {
+            setCurrentUser(data);
+            setFetchErrorMessage('')
+            history.push('/movies')
+          }).catch(() => {
             return setFetchErrorMessage(authUserError)
           })
         }
@@ -87,7 +76,7 @@ function App() {
           return setFetchErrorMessage(serverError)
         }
         return setFetchErrorMessage(loginUserError)
-      });
+      }).finally(() => setIsLoading(false));
   }
 
   function checkToken() {
@@ -178,7 +167,7 @@ function App() {
         </Switch>
       </CurrentUserContext.Provider>
     </div>
-  );
+  )
 }
 
 export default App;

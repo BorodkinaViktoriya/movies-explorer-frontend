@@ -38,8 +38,6 @@ function Profile({setCurrentUser, handleSignOut}) {
   );
   React.useEffect(() => {
     function handleEscapeKey(event) {
-      console.log(event)
-      console.log(values)
       if (event.code === 'Escape') {
         setIsEditing(false)
         return setValues({...values, profileName: currentUser.name, profileEmail: currentUser.email})

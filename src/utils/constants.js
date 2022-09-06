@@ -6,7 +6,7 @@ export const githubLink = 'https://github.com/BorodkinaViktoriya';
 export const vkLink = 'https://vk.com/id132399743';
 
 export const moviesApiURL = 'https://api.nomoreparties.co';
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://api.borodkina-movies.nomoredomains.sbs';
 
 export const nameRegex = new RegExp("^[a-zA-Zа-яёА-ЯЁ -]+$");
 export const emailValidationErrorMessage = 'Введен некоректный адрес электронной почты';
