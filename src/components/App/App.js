@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import {Route, Switch, Redirect, useHistory, useLocation} from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -13,24 +13,24 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import {authorize, getToken, getUserData} from "../../utils/MainApi";
-import savedMovies from '../../utils/saved-movies'
+import {authorize, getSavedMovies, getToken, getUserData} from "../../utils/MainApi";
 import {authUserError, loginUserError, serverError} from "../../utils/constants";
 import moviesApi from "../../utils/MoviesApi";
 
 
 function App() {
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
   const {pathname} = useLocation();
-  const [loggedIn, setLoggedIn] = useState(undefined);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [initialMovies, setInitialMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
   const [currentUser, setCurrentUser] = useState({
     _id: "",
     name: "",
     email: ""
   });
-
+  const history = useHistory();
 
   useEffect(() => {
     checkToken();
@@ -38,27 +38,43 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([getUserData(), moviesApi.getInitialMovies()]).then(([data, movies]) => {
+      Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, movies, userMovies]) => {
         setCurrentUser(data)
         localStorage.setItem('movies', movies);
-        setInitialMovies(movies)
-        console.log(movies)
+        localStorage.setItem('savedmovies', userMovies);
+        setInitialMovies(movies);
+        setSavedMovies(userMovies)
+        console.log('movies', movies)
+        console.log('savedmovies', userMovies)
       })
-        .catch((err) => console.log('Ошибка при звгрузке данных c сервера', err))
+        .catch((err) => console.log('Ошибка при загрузке данных c сервера', err))
+        .finally(setIsLoading(false))
     }
   }, [loggedIn])
 
   function handleLogin({password, email}) {
+    setIsLoading(true)
     authorize({password, email})
       .then((res) => {
         if (res) {
           localStorage.setItem('jwt', res.token);
           setLoggedIn(true);
-          getUserData().then((data) => {
-            setCurrentUser(data);
-            setFetchErrorMessage('')
-            history.push('/movies')
-          }).catch(() => {
+          Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, movies, userMovies]) => {
+            setCurrentUser(data)
+            localStorage.setItem('movies', movies);
+            localStorage.setItem('savedmovies', userMovies);
+            setInitialMovies(movies);
+            setSavedMovies(userMovies)
+            console.log('movies', movies)
+            console.log('savedmovies', userMovies)
+          })
+            .catch((err) => console.log('Ошибка при загрузке данных c сервера', err))
+            .finally(()=>{
+              setIsLoading(false);
+              history.push('/movies');
+            }
+
+        ).catch(() => {
             return setFetchErrorMessage(authUserError)
           })
         }
@@ -93,39 +109,11 @@ function App() {
     return;
   };
 
-  /*useEffect(() => {
-    const storageMovies = JSON.parse(localStorage.getItem('movies'));
-    if (storageMovies) {
-      setInitialMovies(JSON.parse(storageMovies));
-    } else {
-
-    }
-  })*/
-
-  /* useEffect(() => {
-     const storagedMovies = JSON.parse(localStorage.getItem('movies'));
-     if (storagedMovies) {
-       setInitialMovies(storagedMovies);
-     }
-     mainApi
-       .getUserInfo()
-       .then(({ _id, name, email }) => {
-         setUserState({ ...userState, _id, name, email, loggedIn: true });
-       })
-       .catch((err) => {
-         setUserState({ ...userState, loggedIn: false });
-         console.log(err);
-         localStorage.clear();
-       })
-       .finally(() => setRequest(false));
-   }, []);
-
-   function handleSignOut() {
+  function handleSignOut() {
     setLoggedIn(false);
-    localStorage.removeItem('jwt');
-    history.push('/sign-in');
+    localStorage.clear();
+    history.push('/');
   }
-   */
 
   return (
     <div className="App">
@@ -137,25 +125,32 @@ function App() {
             <Footer/>
           </Route>
           <ProtectedRoute
+            isLoading={isLoading}
             exact path="/movies"
             component={Movies}
             initialMovies={initialMovies}
             isDark={false}
             loggedIn={loggedIn}
+            savedMovies={savedMovies}
+            setSavedMovies={setSavedMovies}
           />
           <ProtectedRoute
             path="/saved-movies"
+            isLoading={isLoading}
             component={SavedMovies}
-            cards={savedMovies}
+            savedMovies={savedMovies}
             isDark={false}
             loggedIn={loggedIn}
+            setSavedMovies={setSavedMovies}
           />
           <ProtectedRoute
             path="/profile"
+            isLoading={isLoading}
             component={Profile}
             setCurrentUser={setCurrentUser}
             isDark={false}
             loggedIn={loggedIn}
+            handleSignOut={handleSignOut}
           />
           <Route path="/signin">
             <Login

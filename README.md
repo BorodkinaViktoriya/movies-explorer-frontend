@@ -71,4 +71,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-### Ссылка на макет: https://www.figma.com/file/qh2dm6DjjYxix0YeineJAZ/Diploma-(Copy)-3?node-id=932%3A4336
+### Ссылка на макет: https://www.figma.com/file/qh2dm6DjjYxix0YeineJAZ/Diploma-(Copy)-3?node-id=891%3A3857
+
+### Ссылка на домен: 

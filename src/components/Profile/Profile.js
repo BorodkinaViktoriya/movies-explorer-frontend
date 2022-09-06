@@ -13,7 +13,7 @@ import {
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import {editUserInfo} from "../../utils/MainApi";
 
-function Profile({setCurrentUser}) {
+function Profile({setCurrentUser, handleSignOut}) {
   const currentUser = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [formReady, setIsfFormReady] = React.useState(false);
@@ -124,7 +124,9 @@ function Profile({setCurrentUser}) {
             : (
               <>
                 <button className="profile__button" onClick={handleEditButton} type="button">Редактировать</button>
-                <button className="profile__button profile__button_type_out" type="button">Выйти из аккаунта</button>
+                <button className="profile__button profile__button_type_out" onClick={handleSignOut} type="button">Выйти
+                  из аккаунта
+                </button>
               </>
             )}
         </form>

@@ -75,3 +75,26 @@ export const getSavedMovies = () => {
   })
     .then((res) => handleResponse(res));
 }
+
+export const saveMovie = (data) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    },
+    body: JSON.stringify(data)
+  })
+    .then((res) => handleResponse(res));
+};
+
+export const deleteMovie = (movieId) => {
+  return fetch(`${BASE_URL}/movies/${movieId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    }
+  })
+    .then((res) => handleResponse(res));
+};

@@ -5,15 +5,16 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import React, {useEffect, useState} from "react";
 import Preloader from "../Preloader/Preloader";
-import {foundMovieError, notFoundMovie} from "../../utils/constants";
+import {foundMovieError, moviesApiURL, notFoundMovie} from "../../utils/constants";
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getFirstRenderCount, getRenderStepCount} from '../../utils/getRenderCount'
+import {deleteMovie, getSavedMovies, saveMovie} from "../../utils/MainApi";
 
-function Movies({initialMovies, isDark, loggedIn}) {
+function Movies({ initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) {
   const windowWidth = useCurrentWidth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [isFound, setIsFound] = useState(false);
-  /*const [foundMovies, setFoundMovies] = useState([]);*/
+  const [hiddenMovies, setHiddenMovies] = useState(false);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [renderCount, setRenderCount] = useState(getFirstRenderCount(windowWidth));
   const [isCheckboxOn, setIsCheckboxOn] = useState(false);
@@ -21,17 +22,16 @@ function Movies({initialMovies, isDark, loggedIn}) {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsSearching(true)
     const foundBefore = JSON.parse(localStorage.getItem('savedMovies'));
     const foundBeforeInInput = JSON.parse(localStorage.getItem('savedInputValue'));
     const checked = JSON.parse(localStorage.getItem('isCheckboxOn'));
     setIsCheckboxOn(checked)
     setInputValue(foundBeforeInInput)
     if (foundBefore) {
-      setVisibleMovies(foundBefore)
-       setIsFound(true)
+      setIsFound(true)
     }
-    setIsLoading(false)
+    setIsSearching(false)
   }, []);
 
   function toggleCheckbox() {
@@ -41,11 +41,11 @@ function Movies({initialMovies, isDark, loggedIn}) {
 
   function handleSearchAllMovies(evt) {
     evt.preventDefault();
-    setIsLoading(true)
+    setIsSearching(true)
     localStorage.setItem('savedInputValue', JSON.stringify(inputValue));
     localStorage.setItem('isCheckboxOn', JSON.stringify(isCheckboxOn));
     if (!inputValue) {
-      setIsLoading(false);
+      setIsSearching(false);
       return;
     }
     const found = initialMovies.filter(m => {
@@ -61,14 +61,18 @@ function Movies({initialMovies, isDark, loggedIn}) {
     } else if (found) {
       setRenderCount(getFirstRenderCount(windowWidth))
       setVisibleMovies(found.slice(0, renderCount))
-      setIsLoading(false);
+      if (visibleMovies.length < found.length) {
+        setHiddenMovies(true)
+      } else {
+        setHiddenMovies(false)
+      }
+      setIsSearching(false);
       return setIsFound(true)
-
     } else {
       setIsFound(false)
       setInfoText(foundMovieError)
     }
-    return setIsLoading(false)
+    return setIsSearching(false)
   }
 
   function handleMoreVisibleMovies() {
@@ -77,9 +81,52 @@ function Movies({initialMovies, isDark, loggedIn}) {
   }
 
   useEffect(() => {
-    const sliceMovies = JSON.parse(localStorage.getItem('savedMovies')).splice(0, renderCount);
-    setVisibleMovies(sliceMovies)
+
+    if(savedMovies.length>0){
+      const sliceMovies = savedMovies.splice(0, renderCount);
+      setVisibleMovies(sliceMovies)
+      if (sliceMovies.length < JSON.parse(localStorage.getItem('savedMovies')).length) {
+        setHiddenMovies(true)
+      } else {
+        setHiddenMovies(false)
+      }
+    }
+
   }, [renderCount])
+
+
+  function handleToggleSave(card) {
+    const savedMovie = savedMovies.find(
+      (m) => m.movieId === card.id
+    );
+    if (savedMovie) {
+      deleteMovie(savedMovie._id).then(({data}) => {
+        const newSavedMovies = savedMovies.filter(
+          (item) => item._id !== savedMovie._id
+        );
+        return setSavedMovies(newSavedMovies);
+      });
+    } else {
+      const newMovie = {
+        country: card.country || "Не известна",
+        director: card.director || "Неизвестен",
+        duration: card.duration,
+        year: card.year,
+        description: card.description,
+        image: `${moviesApiURL}${card.image.url}`,
+        trailerLink: card.trailerLink,
+        nameRU: card.nameRU || "Не известно",
+        nameEN: card.nameEN || "Undefind",
+        thumbnail: `${moviesApiURL}${card.image.formats.thumbnail.url}`,
+        movieId: card.id,
+      };
+      saveMovie(newMovie).then((movie) => {
+          return setSavedMovies(state => [...state, movie])
+        }
+      );
+    }
+    ;
+  }
 
   return (
     <>
@@ -92,10 +139,11 @@ function Movies({initialMovies, isDark, loggedIn}) {
           active={isCheckboxOn}
           toggleCheckbox={toggleCheckbox}
         />
-        {isLoading && <Preloader/>}
+        {isSearching && <Preloader/>}
         {!isFound && <p className='movies__info'>{infoText}</p>}
-        {isFound && !isLoading && <MoviesCardList movies={visibleMovies}/>}
-        {<button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
+        {isFound && !isSearching &&
+        <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={()=>console.log('delete')} onLike={handleToggleSave}/>}
+        {!isSearching && hiddenMovies && <button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
       </div>
       <Footer/>
     </>
