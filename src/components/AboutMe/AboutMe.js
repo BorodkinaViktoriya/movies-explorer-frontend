@@ -1,7 +1,7 @@
 import React from "react";
 import SectionTitle from '../SectionTitle/SectionTitle'
 import './AboutMe.css';
-import {githubLink, vkLink} from "../../utils/constants";
+import {GithubLink, VkLink} from "../../utils/constants";
 
 function AboutMe() {
 
@@ -21,9 +21,9 @@ function AboutMe() {
           </div>
           <ul className="student__links">
             <li>
-              <a className="student__link" href={vkLink} target='_blank'>Facebook</a></li>
+              <a className="student__link" href={VkLink} target='_blank'>Facebook</a></li>
             <li>
-              <a className="student__link" href={githubLink} target='_blank'>Github</a>
+              <a className="student__link" href={GithubLink} target='_blank'>Github</a>
             </li>
           </ul>
         </div>

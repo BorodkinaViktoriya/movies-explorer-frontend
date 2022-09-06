@@ -8,7 +8,8 @@ import {
   emailValidationErrorMessage,
   nameRegex,
   nameValidationErrorMessage,
-  registerUserConflictError, serverError
+  registerUserConflictError, serverError,
+  editUserOk
 } from "../../utils/constants";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import {editUserInfo} from "../../utils/MainApi";
@@ -18,7 +19,7 @@ function Profile({setCurrentUser, handleSignOut}) {
   const [isEditing, setIsEditing] = React.useState(false);
   const [formReady, setIsfFormReady] = React.useState(false);
   const [isApiFetching, setIsApiFetching] = React.useState(false);
-  const [editErrorMessage, setEditErrorMessage] = useState('');
+  const [editMessage, setEditMessage] = useState('');
 
 
   const {values, setValues, handleChange, errors, isValid} = useFormWithValidation({
@@ -70,16 +71,16 @@ function Profile({setCurrentUser, handleSignOut}) {
     evt.preventDefault();
     setIsApiFetching(true);
     editUserInfo({name: values.profileName, email: values.profileEmail}).then((res) => {
-      console.log('tditing result', res)
       setIsEditing(false)
-      return setCurrentUser(res);
+      setCurrentUser(res);
+      return setEditMessage(editUserOk)
     }).catch((err) => {
       if (err.status === 409) {
-        return setEditErrorMessage(registerUserConflictError)
+        return setEditMessage(registerUserConflictError)
       } else if (err.status === 500) {
-        return setEditErrorMessage(serverError)
+        return setEditMessage(serverError)
       }
-      return setEditErrorMessage(editUserError)
+      return setEditMessage(editUserError)
     }).finally(() => {
       return setIsApiFetching(false);
     })
@@ -112,9 +113,10 @@ function Profile({setCurrentUser, handleSignOut}) {
               <span id="profileEmail-error" className="profile__error">{errors.profileEmail}</span>
             </label>
           </fieldset>
+          <p className="profile__fail-message">{editMessage}</p>
           {isEditing
             ? (<>
-              <p className="profile__fail-message">{editErrorMessage}</p>
+              {/*<p className="profile__fail-message">{editMessage}</p>*/}
               <button className="profile__button profile__button_type_save" type="submit"
                       disabled={!formReady}>Сохранить
               </button>

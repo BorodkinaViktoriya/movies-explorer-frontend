@@ -15,14 +15,11 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import {authorize, getSavedMovies, getToken, getUserData} from "../../utils/MainApi";
 import {authUserError, loginUserError, serverError} from "../../utils/constants";
-import moviesApi from "../../utils/MoviesApi";
-
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const {pathname} = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [initialMovies, setInitialMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
   const [currentUser, setCurrentUser] = useState({
@@ -39,12 +36,9 @@ function App() {
   useEffect(() => {
     setIsLoading(true)
     if (loggedIn) {
-      Promise.all([getUserData(), moviesApi.getInitialMovies(), getSavedMovies()]).then(([data, allMovies, userMovies]) => {
+      Promise.all([getUserData(), getSavedMovies()]).then(([data, userMovies]) => {
         setCurrentUser(data)
-        localStorage.setItem('allmovies', JSON.stringify(allMovies));
         localStorage.setItem('savedUserMovies', JSON.stringify(userMovies));
-
-        setInitialMovies(allMovies);
         setSavedMovies(userMovies)
       })
         .catch((err) => console.log('Ошибка при загрузке данных c сервера', err))
@@ -117,7 +111,6 @@ function App() {
             isLoading={isLoading}
             exact path="/movies"
             component={Movies}
-            initialMovies={initialMovies}
             isDark={false}
             loggedIn={loggedIn}
             savedMovies={savedMovies}

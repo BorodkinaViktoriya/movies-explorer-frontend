@@ -8,9 +8,10 @@ import Preloader from "../Preloader/Preloader";
 import {foundMovieError, moviesApiURL, notFoundMovie} from "../../utils/constants";
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getFirstRenderCount, getRenderStepCount} from '../../utils/getRenderCount'
-import {deleteMovie, saveMovie} from "../../utils/MainApi";
+import {deleteMovie, getSavedMovies, getUserData, saveMovie} from "../../utils/MainApi";
+import moviesApi from "../../utils/MoviesApi";
 
-function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) {
+function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
   const windowWidth = useCurrentWidth();
   const [isSearching, setIsSearching] = useState(false);
   const [isFound, setIsFound] = useState(false);
@@ -18,18 +19,22 @@ function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) 
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [renderCount, setRenderCount] = useState(getFirstRenderCount(windowWidth));
   const [isCheckboxOn, setIsCheckboxOn] = useState(false);
-  const [infoText, setInfoText] = useState('Ничего не найдено');
+  const [infoText, setInfoText] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const [initialMovies, setInitialMovies] = useState([]);
 
   useEffect(() => {
     setIsSearching(true)
-    const foundBefore = JSON.parse(localStorage.getItem('foundMovies'));
-    const foundBeforeInInput = JSON.parse(localStorage.getItem('savedInputValue'));
-    const checked = JSON.parse(localStorage.getItem('isCheckboxOn'));
-    setIsCheckboxOn(checked)
-    setInputValue(foundBeforeInInput)
-    if (foundBefore) {
-      setIsFound(true)
+    setInitialMovies(JSON.parse(localStorage.getItem('initialMovies')));
+    if (initialMovies) {
+      const foundBefore = JSON.parse(localStorage.getItem('foundMovies'));
+      const foundBeforeInInput = JSON.parse(localStorage.getItem('savedInputValue'));
+      const checked = JSON.parse(localStorage.getItem('isCheckboxOn'));
+      setIsCheckboxOn(checked)
+      setInputValue(foundBeforeInInput)
+      if (foundBefore) {
+        setIsFound(true)
+      }
     }
     setIsSearching(false)
   }, []);
@@ -38,22 +43,22 @@ function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) 
     setIsCheckboxOn(!isCheckboxOn);
   }
 
-  function handleSearchAllMovies(evt) {
-    evt.preventDefault();
-    setIsSearching(true)
+  function handleSearch(data) {
     localStorage.setItem('savedInputValue', JSON.stringify(inputValue));
     localStorage.setItem('isCheckboxOn', JSON.stringify(isCheckboxOn));
     if (!inputValue) {
       setIsSearching(false);
       return;
     }
-    const found = initialMovies.filter(m => {
+    console.log(data)
+    const found = data.filter(m => {
       if (isCheckboxOn) {
         return m.duration <= 40 && m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
       }
       return m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
     })
     localStorage.setItem('foundMovies', JSON.stringify(found));
+    console.log(found)
     if (found.length === 0) {
       setIsFound(false)
       setInfoText(notFoundMovie)
@@ -70,6 +75,26 @@ function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) 
     } else {
       setIsFound(false)
       setInfoText(foundMovieError)
+    }
+  }
+
+  function handleSearchAllMovies(evt) {
+    evt.preventDefault();
+    setInfoText('lknlbnlkblkb')
+    setIsSearching(true)
+    console.log(isSearching)
+    /*setInitialMovies(JSON.parse(localStorage.getItem('initialMovies')));*/
+    if (!JSON.parse(localStorage.getItem('initialMovies'))) {
+      console.log(isSearching)
+      moviesApi.getInitialMovies().then((allMovies) => {
+        localStorage.setItem('initialMovies', JSON.stringify(allMovies));
+        console.log(allMovies)
+        setInitialMovies(allMovies)
+        console.log(initialMovies)
+        handleSearch(initialMovies)
+      })
+    } else {
+      handleSearch(initialMovies)
     }
     return setIsSearching(false)
   }
@@ -139,7 +164,7 @@ function Movies({initialMovies, isDark, loggedIn, savedMovies, setSavedMovies}) 
           toggleCheckbox={toggleCheckbox}
         />
         {isSearching && <Preloader/>}
-        {!isFound && <p className='movies__info'>{infoText}</p>}
+        <p className='movies__info'>{infoText}</p>
         {isFound && !isSearching &&
         <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={() => console.log('delete')}
                         onLike={handleToggleSave}/>}
