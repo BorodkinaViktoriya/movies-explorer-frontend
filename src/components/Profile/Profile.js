@@ -65,6 +65,7 @@ function Profile({setCurrentUser, handleSignOut}) {
 
   function handleEditButton() {
     setIsEditing(true)
+    setEditMessage('')
   }
 
   function handleEditSubmit(evt) {
@@ -116,7 +117,6 @@ function Profile({setCurrentUser, handleSignOut}) {
           <p className="profile__fail-message">{editMessage}</p>
           {isEditing
             ? (<>
-              {/*<p className="profile__fail-message">{editMessage}</p>*/}
               <button className="profile__button profile__button_type_save" type="submit"
                       disabled={!formReady}>Сохранить
               </button>
