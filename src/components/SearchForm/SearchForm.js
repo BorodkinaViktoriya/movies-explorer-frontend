@@ -20,7 +20,7 @@ function SearchForm({onSubmit, inputValue, setInputValue, active, toggleCheckbox
       <form className="search__form" onSubmit={onSubmit} noValidate>
         <label className="search__label">
           <input type="text" placeholder="Фильм" className="search__input" required
-                 value={inputValue||''}
+                 value={inputValue || ''}
                  onChange={handleChange}>
           </input>
           <span id="search-error" className="search__error">{inputValueError}</span>

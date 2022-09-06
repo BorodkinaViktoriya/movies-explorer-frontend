@@ -5,12 +5,13 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import {deleteMovie} from "../../utils/MainApi";
+import {notFoundMovie} from "../../utils/constants";
 
-function SavedMovies({savedMovies, isDark, loggedIn}) {
+function SavedMovies({savedMovies, setSavedMovies, isDark, loggedIn}) {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [infoText, setInfoText] = useState('Ничего не найдено');
+  const [infoText, setInfoText] = useState('');
   const [isSavedCheckboxOn, setIsSavedCheckboxOn] = useState(false);
 
   function toggleSavedCheckbox() {
@@ -35,12 +36,19 @@ function SavedMovies({savedMovies, isDark, loggedIn}) {
       return m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
     })
     setFilteredMovies(found)
+    if (found.length === 0) {
+      setInfoText(notFoundMovie)
+    }
   }
 
   function handleDeleteMovie(movie) {
     deleteMovie(movie._id).then(() => {
-      return setFilteredMovies(filteredMovies => filteredMovies.filter(m => m._id !== movie._id))
-    }).catch((err) => setInfoText(err.message))
+      const newSavedMovies = savedMovies.filter(
+        (item) => item._id !== movie._id
+      );
+      setFilteredMovies(filteredMovies => filteredMovies.filter(m => m._id !== movie._id))
+      return setSavedMovies(newSavedMovies);
+    })
   }
 
   return (

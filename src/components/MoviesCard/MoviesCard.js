@@ -6,6 +6,7 @@ import {moviesApiURL} from "../../utils/constants";
 function MoviesCard({card, savedMovies, onLike, onDelete}) {
   const {pathname} = useLocation();
   const saved = savedMovies.some(m => m.movieId === card.id);
+  const MovieDuration = `${Math.floor(card.duration / 60)}ч ${card.duration % 60}м`
 
   function handleDelete() {
     onDelete(card)
@@ -42,7 +43,7 @@ function MoviesCard({card, savedMovies, onLike, onDelete}) {
             />
           )}
         </div>
-        <p className="card__duration">{card.duration}</p>
+        <p className="card__duration">{MovieDuration}</p>
       </figcaption>
 
     </div>

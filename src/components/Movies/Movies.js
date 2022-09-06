@@ -8,12 +8,12 @@ import Preloader from "../Preloader/Preloader";
 import {foundMovieError, moviesApiURL, notFoundMovie} from "../../utils/constants";
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getFirstRenderCount, getRenderStepCount} from '../../utils/getRenderCount'
-import {deleteMovie, getSavedMovies, getUserData, saveMovie} from "../../utils/MainApi";
+import {deleteMovie, saveMovie} from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 
 function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
   const windowWidth = useCurrentWidth();
-  const [isSearching, setIsSearching] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [isFound, setIsFound] = useState(false);
   const [hiddenMovies, setHiddenMovies] = useState(false);
   const [visibleMovies, setVisibleMovies] = useState([]);
@@ -24,7 +24,6 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
   const [initialMovies, setInitialMovies] = useState([]);
 
   useEffect(() => {
-    setIsSearching(true)
     setInitialMovies(JSON.parse(localStorage.getItem('initialMovies')));
     if (initialMovies) {
       const foundBefore = JSON.parse(localStorage.getItem('foundMovies'));
@@ -36,22 +35,19 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
         setIsFound(true)
       }
     }
-    setIsSearching(false)
   }, []);
 
   function toggleCheckbox() {
     setIsCheckboxOn(!isCheckboxOn);
   }
 
-  function handleSearch(data) {
+  function handleSearch(movies) {
     localStorage.setItem('savedInputValue', JSON.stringify(inputValue));
     localStorage.setItem('isCheckboxOn', JSON.stringify(isCheckboxOn));
     if (!inputValue) {
-      setIsSearching(false);
       return;
     }
-    console.log(data)
-    const found = data.filter(m => {
+    const found = movies.filter(m => {
       if (isCheckboxOn) {
         return m.duration <= 40 && m.nameRU.toLowerCase().includes(inputValue.toLowerCase())
       }
@@ -70,7 +66,6 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
       } else {
         setHiddenMovies(false)
       }
-      setIsSearching(false);
       return setIsFound(true)
     } else {
       setIsFound(false)
@@ -80,23 +75,23 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
 
   function handleSearchAllMovies(evt) {
     evt.preventDefault();
-    setInfoText('lknlbnlkblkb')
-    setIsSearching(true)
-    console.log(isSearching)
-    /*setInitialMovies(JSON.parse(localStorage.getItem('initialMovies')));*/
-    if (!JSON.parse(localStorage.getItem('initialMovies'))) {
-      console.log(isSearching)
-      moviesApi.getInitialMovies().then((allMovies) => {
-        localStorage.setItem('initialMovies', JSON.stringify(allMovies));
-        console.log(allMovies)
-        setInitialMovies(allMovies)
-        console.log(initialMovies)
-        handleSearch(initialMovies)
+    setIsFetching(true)
+    setInfoText('')
+    if (!initialMovies) {
+      moviesApi.getInitialMovies().then((newMovies) => {
+        localStorage.setItem('initialMovies', JSON.stringify(newMovies));
+        console.log(newMovies)
+        setInitialMovies(newMovies)
+        handleSearch(newMovies)
       })
+        .catch((err) => {
+          setIsFound(false);
+          setInfoText(err.message)
+        }).finally(() => setIsFetching(false))
     } else {
       handleSearch(initialMovies)
+      setIsFetching(false)
     }
-    return setIsSearching(false)
   }
 
   function handleMoreVisibleMovies() {
@@ -117,7 +112,6 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
     }
 
   }, [renderCount])
-
 
   function handleToggleSave(card) {
     const savedMovie = savedMovies.find(
@@ -163,12 +157,12 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
           active={isCheckboxOn}
           toggleCheckbox={toggleCheckbox}
         />
-        {isSearching && <Preloader/>}
-        <p className='movies__info'>{infoText}</p>
-        {isFound && !isSearching &&
+        {isFetching && <Preloader/>}
+        {!isFound && <p className='movies__info'>{infoText}</p>}
+        {isFound && !isFetching &&
         <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={() => console.log('delete')}
                         onLike={handleToggleSave}/>}
-        {!isSearching && hiddenMovies &&
+        {!isFetching && hiddenMovies &&
         <button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
       </div>
       <Footer/>

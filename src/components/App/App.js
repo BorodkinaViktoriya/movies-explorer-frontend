@@ -108,7 +108,6 @@ function App() {
             <Footer/>
           </Route>
           <ProtectedRoute
-            isLoading={isLoading}
             exact path="/movies"
             component={Movies}
             isDark={false}
@@ -118,7 +117,6 @@ function App() {
           />
           <ProtectedRoute
             path="/saved-movies"
-            isLoading={isLoading}
             component={SavedMovies}
             savedMovies={savedMovies}
             isDark={false}
