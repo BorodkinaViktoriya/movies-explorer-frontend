@@ -162,7 +162,7 @@ function Movies({isDark, loggedIn, savedMovies, setSavedMovies}) {
         {isFound && !isFetching &&
         <MoviesCardList movies={visibleMovies} savedMovies={savedMovies} onDelete={() => console.log('delete')}
                         onLike={handleToggleSave}/>}
-        {!isFetching && hiddenMovies &&
+        {!isFetching && hiddenMovies && isFound &&
         <button className="movies__more" onClick={handleMoreVisibleMovies}>Еще</button>}
       </div>
       <Footer/>
