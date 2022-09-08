@@ -12,7 +12,28 @@
   justify-content: space-between;
 }
 
+.search__label {
+  position: relative;
+}
+
+.search__error {
+  display: block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF3055;
+  content: ' ';
+  position: absolute;
+  padding-left: 10px;
+  bottom: -15px;
+}
+
 .search__input {
+  outline-color: #2BE080;
   height: 50px;
   background-color: #F9F9F9;
   border: none;

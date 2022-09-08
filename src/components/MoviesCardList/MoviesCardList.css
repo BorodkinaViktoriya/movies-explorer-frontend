@@ -16,17 +16,6 @@
   justify-content: center;
 }
 
-.cards-container__more {
-  width: 320px;
-  height: 36px;
-  margin: 50px auto 90px;
-  border: none;
-  border-radius: 6px;
-  background-color: #F9F9F9;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
-}
 
 .cards-container__empty {
   height: 140px;

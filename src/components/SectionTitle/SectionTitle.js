@@ -1,7 +1,7 @@
 import React from 'react';
 import './SectionTitle.css'
 
-function SectionTitle (props) {
+function SectionTitle(props) {
 
   return (
     <p className="section__title">{props.title}</p>

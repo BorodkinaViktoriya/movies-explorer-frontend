@@ -1,22 +1,40 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './MoviesCard.css';
 import {useLocation} from "react-router-dom";
+import {moviesApiURL} from "../../utils/constants";
 
-function MoviesCard({card}) {
+function MoviesCard({card, savedMovies, onLike, onDelete}) {
   const {pathname} = useLocation();
-  const [saved, setSaved] = React.useState(false);
+  const saved = savedMovies.some(m => m.movieId === card.id);
+  const MovieDuration = `${Math.floor(card.duration / 60)}ч ${card.duration % 60}м`
+
+  function handleDelete() {
+    onDelete(card)
+  }
 
   function handleSaving() {
-    setSaved(!saved);
+    onLike(card)
   }
+
+  useEffect(() => {
+  }, [savedMovies.length]);
+
   return (
     <div className="card">
-      <img className="card__poster" src={card.url} alt={card.nameRU}/>
+      <a
+        className="card__trailer-link"
+        href={card.trailerLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img className="card__poster" src={pathname === '/saved-movies' ? `${card.image}` :
+          `${moviesApiURL}${card.image.url}`} alt={card.nameRU}/>
+      </a>
       <figcaption className="card__info">
         <div className="card__description">
           <h2 className="card__title">{card.nameRU}</h2>
           {pathname === "/saved-movies" ? (
-            <button type="button" className="card__button card__button_type_delete"/>
+            <button type="button" className="card__button card__button_type_delete" onClick={handleDelete}/>
           ) : (
             <button
               type="button"
@@ -25,7 +43,7 @@ function MoviesCard({card}) {
             />
           )}
         </div>
-        <p className="card__duration">{card.duration}</p>
+        <p className="card__duration">{MovieDuration}</p>
       </figcaption>
 
     </div>

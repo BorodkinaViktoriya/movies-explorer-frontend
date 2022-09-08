@@ -1,7 +1,7 @@
 import React from "react";
 import SectionTitle from '../SectionTitle/SectionTitle'
 import './AboutMe.css';
-import {githubLink, vkLink} from "../../utils/constants";
+import {GithubLink, VkLink} from "../../utils/constants";
 
 function AboutMe() {
 
@@ -13,19 +13,17 @@ function AboutMe() {
           <div className="student__about">
             <h3 className="student__name">Виктория</h3>
             <p className="student__job"> Фронтенд-разработчик, 34 года</p>
-            <p className="student__brief">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть
-              жена
-              и&nbsp;дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в
-              компании
-              «СКБ Контур». После того, как прошёл курс по веб&zwj;-&zwj;разработке, начал заниматься
-              фриланс&zwj;-&zwj;заказами и
-              ушёл с постоянной работы.</p>
+            <p className="student__brief">Я живу в Mоскве, получила образование в МГТУ Станкин по специальностям:
+              "Инженер по защите экологической среды" и "Экономический менеджмент". Замужем, трое сыновей. Люблю учиться
+              и узнавать новое. С рождения детей работаю с частичной занятостью с документами. Со школы было интересно
+              программирование, решила развиваться и совершенствоваться в веб&zwj;-&zwj;разработке, поэтому пошла
+              учиться в Яндекс.</p>
           </div>
           <ul className="student__links">
             <li>
-              <a className="student__link" href={vkLink} target='_blank'>Facebook</a></li>
+              <a className="student__link" href={VkLink} target='_blank'>Facebook</a></li>
             <li>
-              <a className="student__link" href={githubLink} target='_blank'>Github</a>
+              <a className="student__link" href={GithubLink} target='_blank'>Github</a>
             </li>
           </ul>
         </div>
